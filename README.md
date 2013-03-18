@@ -9,9 +9,9 @@ Locations:
 
 Attractions:
 -------
--GUI
--Mouse hovering
--Advanced, informative, togglable paint  
--Custom adjusting rock priorities
--Antiban (to be further updated)
--Coal bag support (future update)
+-GUI  
+-Mouse hovering  
+-Advanced, informative, togglable paint 
+-Custom adjusting rock priorities  
+-Antiban (to be further updated)  
+-Coal bag support (future update)  
