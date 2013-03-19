@@ -27,7 +27,7 @@ public class WalkToBank extends Node
 	{
 		MiningVars.action = 5;
 		
-		if (!Functions.closeEnough(new Tile(3296, 3185, 0), 70))
+		if (!Functions.closeEnough(MiningLocation.getLodestoneToBankPath(MiningVars.miningLocation).getStart(), 100))
 		{
 			if (MiningVars.hasLodestone)
 			{
@@ -37,8 +37,10 @@ public class WalkToBank extends Node
 					Lodestone.teleport(Lodestone.DRAYNOR_VILLAGE);
 			}
 			
-			MiningLocation.getLodestoneToBankPath(MiningVars.miningLocation).traverse();
+			//TODO will only run once - so you can't walk quite from lodestone to bank...
+			//MiningLocation.getLodestoneToBankPath(MiningVars.miningLocation).traverse();
 		}
+		MiningLocation.getLodestoneToBankPath(MiningVars.miningLocation).traverse();
 		MiningLocation.getMinesToBankPath(MiningVars.miningLocation).traverse();
 		Task.sleep(1200, 1700);
 	}

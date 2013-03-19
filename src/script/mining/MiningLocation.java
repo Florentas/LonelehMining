@@ -156,12 +156,14 @@ public enum MiningLocation
 		}
 		else if (loc.equalsIgnoreCase("lumbridge swamp"))
 		{
-			return Walking.newTilePath(new Tile[] { new Tile(3105, 3294, 0), new Tile(3108, 3294, 0), new Tile(3109, 3289, 0), 
-					new Tile(3107, 3283, 0), new Tile(3106, 3279, 0), new Tile(3104, 3274, 0), 
-					new Tile(3104, 3271, 0), new Tile(3103, 3266, 0), new Tile(3103, 3261, 0), 
-					new Tile(3103, 3256, 0), new Tile(3103, 3252, 0), new Tile(3101, 3250, 0), 
-					new Tile(3098, 3249, 0), new Tile(3095, 3249, 0), new Tile(3092, 3248, 0), 
-					new Tile(3092, 3246, 0), new Tile(3091, 3243, 0) });
+			return Walking.newTilePath(new Tile[] { new Tile(3104, 3297, 0), new Tile(3106, 3295, 0), new Tile(3108, 3293, 0), 
+					new Tile(3108, 3291, 0), new Tile(3108, 3289, 0), new Tile(3107, 3286, 0), 
+					new Tile(3105, 3282, 0), new Tile(3104, 3279, 0), new Tile(3104, 3274, 0), 
+					new Tile(3103, 3271, 0), new Tile(3103, 3268, 0), new Tile(3103, 3266, 0), 
+					new Tile(3103, 3262, 0), new Tile(3103, 3258, 0), new Tile(3103, 3255, 0), 
+					new Tile(3103, 3251, 0), new Tile(3103, 3250, 0), new Tile(3100, 3249, 0), 
+					new Tile(3097, 3249, 0), new Tile(3095, 3249, 0), new Tile(3092, 3248, 0), 
+					new Tile(3091, 3246, 0), new Tile(3092, 3244, 0), new Tile(3090, 3243, 0) });
 		}
 		else if (loc.equalsIgnoreCase("mining guild"))
 		{

@@ -45,6 +45,11 @@ public class Antiban extends Node
 			{
 				Camera.setPitch(Random.nextInt(47, 99));
 			}
+			if (MiningVars.rockMining.validate() && Players.getLocal().getAnimation() != 624)
+			{
+				System.out.println("caught by antiban");
+				MiningVars.rockMining.interact("Mine", MiningVars.rockMining.getDefinition().getName());
+			}
 			break;
 		case 5: //WalkToBank
 			if (!Functions.closeEnough(MiningLocation.getMinesToBankPath(MiningVars.miningLocation).getEnd(), 20))
@@ -83,7 +88,6 @@ public class Antiban extends Node
 			break;
 		}
 		
-		//System.out.println("action = " + MiningVars.action);
 		if (MiningVars.action == 3 || MiningVars.action == 4)
 		{
 			if ((MiningVars.rockMining == null || !MiningVars.rockMining.validate()) && Mining.findNewRock() == null)

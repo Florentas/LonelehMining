@@ -15,6 +15,7 @@ import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 
 import javax.imageio.ImageIO;
 
@@ -24,6 +25,7 @@ import org.powerbot.game.api.util.Time;
 import misc.Functions;
 import misc.Variables;
 
+import script.LonelehMining;
 import script.mining.MiningVars;
 import script.mining.Ore;
 
@@ -67,6 +69,15 @@ public class Paint
 	public static Rectangle menuSmeltingRect = new Rectangle(new Point(20, 460), new Dimension(59, 23));
 	public static Rectangle menuSmithingRect = new Rectangle(new Point(20, 490), new Dimension(59, 23));
 	
+	
+	private String version_s = "";
+	
+	public Paint()
+	{
+		DecimalFormat df = new DecimalFormat("#.####");
+		version_s = "v" + df.format(LonelehMining.getVersion());
+	}
+	
 	public static Image getImage(String url)
 	{
 		try 
@@ -101,7 +112,7 @@ public class Paint
 				
 				g.setFont(font1);
 				g.setColor(color1);
-				g.drawString(String.format("v%.2f", script.LonelehMining.getVersion()), 477, 67);
+				g.drawString(version_s, 477, 67);
 				
 				String ores_s, oresPerHour_s, gems_s, gemsPerHour_s, gold_s, goldPerHour_s, exp_s, expPerHour_s;
 				long profit = 0;
@@ -310,7 +321,7 @@ public class Paint
 			if (d >= 10000000)
 			{
 				g.setColor(new Color(0x00, 0x76, 0x33));
-				goldPerHour_s = String.format("(%.1fM gp/hr", d/1000000.0);
+				goldPerHour_s = String.format("(%.1fM gp/hr)", d/1000000.0);
 			}
 			else if (d >= 100000)
 			{
@@ -320,7 +331,7 @@ public class Paint
 			else if (d >= 10000)
 			{
 				g.setColor(new Color(0xFF, 0x8B, 0x00));
-				goldPerHour_s = String.format("(%.1fk gp)", d/1000.0);
+				goldPerHour_s = String.format("(%.1fk gp/hr)", d/1000.0);
 			}
 			else
 			{
@@ -358,7 +369,7 @@ public class Paint
 		if (d >= 10000000)
 		{
 			g.setColor(new Color(0x00, 0x76, 0x33));
-			expPerHour_s = String.format("(%.1fM exp/hr", d/1000000.0);
+			expPerHour_s = String.format("(%.1fM exp/hr)", d/1000000.0);
 		}
 		else if (d >= 100000)
 		{

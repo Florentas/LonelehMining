@@ -23,7 +23,6 @@ public class HoverRock extends Node
 	@Override
 	public void execute()
 	{
-		//System.out.println("Hover rocks");
 		MiningVars.action = 3;
 		
 		MiningVars.rockHover = Mining.findNewRock();
@@ -31,8 +30,6 @@ public class HoverRock extends Node
 		if (MiningVars.rockHover == null) return;
 		else
 		{
-			//System.out.println("hover rock gives me: (" + MiningVars.rockHover.getId() + ") - " + MiningVars.rockHover.getDefinition().getName() + " - " + (MiningVars.rockHover.getInstance() == null) + " - " + MiningVars.rockHover.validate());
-			
 			if (MiningVars.rockHover != null)
 			{
 				if (!Utilities.isOnScreen(MiningVars.rockHover))

@@ -24,7 +24,7 @@ import script.mining.Mining;
 import script.mining.MiningVars;
 import script.mining.Ore;
 
-@Manifest(authors = {"xPropel"}, description = "<html>Makes mining <i>ever</i> so simple. Now supports Al Kharid, Lumbridge Swamp, and the Mining Guild.</html>", name = "Loneleh Mining", version = 1.0, singleinstance = true)
+@Manifest(authors = {"xPropel"}, description = "<html>Makes mining <i>ever</i> so simple. Now supports Al Kharid, Lumbridge Swamp, and the Mining Guild.</html>", name = "Loneleh Mining", version = 1.01, singleinstance = true)
 
 public class LonelehMining extends ActiveScript implements PaintListener, MouseListener, MessageListener
 {

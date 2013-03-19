@@ -243,10 +243,9 @@ public class Ore
 	//and that is simply way too much memory, since you will only be needing 1 location at a time, 
 	//making tons of rockgroups for different locations is just retarded as only 1 will be used each time
 	
-	public int[] getRockGroupIds()
+	public int[] getRockGroupIds(String location, OreType type)
 	{
-		//System.out.println("loc: " + MiningVars.miningLocation);
-		if (MiningVars.miningLocation.equalsIgnoreCase(MiningLocation.AL_KHARID.getName()))
+		if (location.equalsIgnoreCase(MiningLocation.AL_KHARID.getName()))
 		{
 			switch (type)
 			{
@@ -272,9 +271,8 @@ public class Ore
 				break;
 			}
 		}
-		else if (MiningVars.miningLocation.equalsIgnoreCase(MiningLocation.LUMBRIDGE_SWAMP.getName()))
+		else if (location.equalsIgnoreCase(MiningLocation.LUMBRIDGE_SWAMP.getName()))
 		{
-			//TODO still haven't got values
 			switch (type)
 			{
 			case TIN:
@@ -299,7 +297,7 @@ public class Ore
 				break;
 			}
 		}
-		else if (MiningVars.miningLocation.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()))
+		else if (location.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()))
 		{
 			//TODO still haven't got values
 			switch (type)
@@ -313,11 +311,11 @@ public class Ore
 			case SILVER:
 				return new int[]{};
 			case COAL:
-				return new int[]{11930, 11932};
+				return new int[]{};
 			case GOLD:
 				return new int[]{};
 			case MITHRIL:
-				return new int[]{11942, 11944};
+				return new int[]{};
 			case ADAMANT:
 				return new int[]{};
 			case RUNE:
@@ -328,6 +326,11 @@ public class Ore
 		}
 		
 		return new int[]{};
+	}
+	
+	public int[] getRockGroupIds()
+	{
+		return getRockGroupIds(MiningVars.miningLocation, type);
 	}
 	
 	

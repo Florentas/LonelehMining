@@ -2,6 +2,7 @@ package script.mining.nodes;
 
 
 import gui.GUI;
+import misc.Condition;
 import misc.Utilities;
 
 import org.powerbot.core.script.job.Task;
@@ -35,17 +36,17 @@ public class MineOres extends Node
 		{
 			if (MiningVars.rockMining.isOnScreen() && MiningVars.rockMining.getInstance() != null && MiningVars.rockMining.validate())
 			{
-				if (Players.getLocal().getAnimation() == 624 || Players.getLocal().isMoving())
+				if (!Utilities.waitFor(new Condition()
+				{
+					@Override
+					public boolean validate()
+					{
+						return !MiningVars.rockMining.validate();
+					}
+					
+				}, 100))
 				{
 					return;
-				}
-				else
-				{
-					Task.sleep(1000);
-					if (Players.getLocal().getAnimation() == 624 || Players.getLocal().isMoving())
-					{
-						return;
-					}
 				}
 			}
 		}
@@ -68,11 +69,9 @@ public class MineOres extends Node
 			}
 			if (Mining.waitForRockMiningOnScreen(1500) && MiningVars.rockMining.isOnScreen() && MiningVars.rockMining.validate())
 			{
-				if (Players.getLocal().getAnimation() != 624)
-				{
-					MiningVars.rockMining.interact("Mine", MiningVars.rockMining.getDefinition().getName());
-				}
-				Task.sleep(800, 1300);
+				MiningVars.rockMining.interact("Mine", MiningVars.rockMining.getDefinition().getName());
+				
+				Task.sleep(100, 300);
 			}
 		}
 		
