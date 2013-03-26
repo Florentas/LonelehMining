@@ -41,10 +41,8 @@ public class SubmitServer
 				"gems", String.format("%d", MiningVars.gemsMined),
 				"profit", String.format("%d", Ore.getTotalProfit()),
 				"exp", String.format("%.0f", Ore.getTotalExp())};
-		for (int i = 0 ; i < submitParameters.length-1 ; i++)
-			System.out.println(submitParameters[i] + ": " + submitParameters[++i]);
 		
-		return submit(submitUrl, true, submitParameters) + "\n" + submit(logUrl, false, submitParameters);
+		return submit(logUrl, true, submitParameters) + "\n" + submit(submitUrl, false, submitParameters);
 	}
 	
 	/**
@@ -101,7 +99,6 @@ public class SubmitServer
 					}
 				}
 			}
-			System.out.println("urlStr = " + urlStr);
 			
 			URL url = new URL(urlStr);
 			URLConnection submitConn = url.openConnection();

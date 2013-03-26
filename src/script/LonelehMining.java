@@ -32,7 +32,7 @@ import script.mining.MiningVars;
 import script.mining.Ore;
 
 @Manifest(
-		version = 1.20,
+		version = 1.21,
 		authors = {"xPropel"},
 		description = "<html>Makes mining <i>ever</i> so simple. Now supports Al Kharid and Lumbridge Swamp, banking, power mining, and so much more!</html>",
 		name = "Loneleh Mining",
@@ -150,7 +150,8 @@ public class LonelehMining extends ActiveScript implements PaintListener, MouseL
 	@Override
 	public void onStop()
 	{
-		submitter.submit();
+		if (submitter != null)
+			submitter.submit();
 
 		logger.info("Thanks for using " + getName());
 	}
