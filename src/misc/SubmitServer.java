@@ -36,13 +36,13 @@ public class SubmitServer
 		String[] submitParameters = new String[] {
 				"script", "mining",
 				"name", LonelehMining.getPbName(),
-				"time", String.format("%d", Variables.miningTimer.getElapsedTime()),
-				"ores", String.format("%d", MiningVars.oresMined),
-				"gems", String.format("%d", MiningVars.gemsMined),
-				"profit", String.format("%d", Ore.getTotalProfit()),
-				"exp", String.format("%.0f", Ore.getTotalExp())};
+				"time", String.format("%d", Variables.miningTimer.getElapsedTime()-lastTime),
+				"ores", String.format("%d", MiningVars.oresMined-lastOres),
+				"gems", String.format("%d", MiningVars.gemsMined-lastGems),
+				"profit", String.format("%d", Ore.getTotalProfit()-lastProfit),
+				"exp", String.format("%.0f", Ore.getTotalExp()-lastExp)};
 		
-		return submit(logUrl, true, submitParameters) + "\n" + submit(submitUrl, false, submitParameters);
+		return submit(logUrl, submitParameters) + "\n" + submit(submitUrl, submitParameters);
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class SubmitServer
 	 * @param requestParameters field1, val1, field2, val2, etc
 	 * @return the response from server
 	 */
-	private String submit(String endpoint, boolean subtract, final String ...requestParameters)
+	private String submit(String endpoint, final String ...requestParameters)
 	{
 		String result = null;
 		
@@ -65,32 +65,27 @@ public class SubmitServer
 				{
 					if (requestParameters[i].equalsIgnoreCase("time"))
 					{
-						lastTime = subtract == true ? lastTime : 0;
-						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[i+1])-lastTime) + "&";
+						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[i+1])) + "&";
 						lastTime = Long.parseLong(requestParameters[++i]);
 					}
 					else if (requestParameters[i].equalsIgnoreCase("ores"))
 					{
-						lastOres = subtract == true ? lastOres : 0;
-						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[i+1])-lastOres) + "&";
+						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[i+1])) + "&";
 						lastOres = Long.parseLong(requestParameters[++i]);
 					}
 					else if (requestParameters[i].equalsIgnoreCase("gems"))
 					{
-						lastGems = subtract == true ? lastGems : 0;
-						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[i+1])-lastGems) + "&";
+						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[i+1])) + "&";
 						lastGems = Long.parseLong(requestParameters[++i]);
 					}
 					else if (requestParameters[i].equalsIgnoreCase("profit"))
 					{
-						lastProfit = subtract == true ? lastProfit : 0;
-						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[i+1])-lastProfit) + "&";
+						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[i+1])) + "&";
 						lastProfit = Long.parseLong(requestParameters[++i]);
 					}
 					else if (requestParameters[i].equalsIgnoreCase("exp"))
 					{
-						lastExp = subtract == true ? lastExp : 0;
-						urlStr += requestParameters[i] + "=" + (Double.parseDouble(requestParameters[i+1])-lastExp) + "&";
+						urlStr += requestParameters[i] + "=" + (Double.parseDouble(requestParameters[i+1])) + "&";
 						lastExp = Double.parseDouble(requestParameters[++i]);
 					}
 					else
@@ -99,6 +94,8 @@ public class SubmitServer
 					}
 				}
 			}
+			
+			//System.out.println("urlStr = " + urlStr);
 			
 			URL url = new URL(urlStr);
 			URLConnection submitConn = url.openConnection();
