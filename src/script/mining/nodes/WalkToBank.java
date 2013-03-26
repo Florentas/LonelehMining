@@ -6,8 +6,6 @@ import misc.Lodestone;
 import org.powerbot.core.script.job.Task;
 import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.tab.Inventory;
-import org.powerbot.game.api.wrappers.Tile;
-
 import script.mining.Mining;
 import script.mining.MiningLocation;
 import script.mining.MiningVars;

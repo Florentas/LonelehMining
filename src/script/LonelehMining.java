@@ -1,4 +1,6 @@
 package script;
+import gui.GUI;
+
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -6,12 +8,17 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
+import misc.SubmitServer;
+
+import org.powerbot.core.Bot;
 import org.powerbot.core.event.events.MessageEvent;
 import org.powerbot.core.event.listeners.MessageListener;
 import org.powerbot.core.event.listeners.PaintListener;
 import org.powerbot.core.script.ActiveScript;
 import org.powerbot.core.script.job.Job;
+import org.powerbot.core.script.job.Task;
 import org.powerbot.core.script.job.state.Node;
 import org.powerbot.core.script.job.state.Tree;
 import org.powerbot.game.api.Manifest;
@@ -24,7 +31,15 @@ import script.mining.Mining;
 import script.mining.MiningVars;
 import script.mining.Ore;
 
-@Manifest(authors = {"xPropel"}, description = "<html>Makes mining <i>ever</i> so simple. Now supports Al Kharid, Lumbridge Swamp, and the Mining Guild.</html>", name = "Loneleh Mining", version = 1.01, singleinstance = true)
+@Manifest(
+		version = 1.20,
+		authors = {"xPropel"},
+		description = "<html>Makes mining <i>ever</i> so simple. Now supports Al Kharid and Lumbridge Swamp, banking, power mining, and so much more!</html>",
+		name = "Loneleh Mining",
+		singleinstance = true,
+		topic = 956629,
+		website = "http://www.powerbot.org/community/topic/956629-loneleh-mining-always-a-step-ahead/",
+		hidden = false)
 
 public class LonelehMining extends ActiveScript implements PaintListener, MouseListener, MessageListener
 {
@@ -61,29 +76,39 @@ public class LonelehMining extends ActiveScript implements PaintListener, MouseL
 		}
 	}
 	
+	public static String getPbName()
+	{
+		return Bot.context().getDisplayName();
+	}
 	public static String getName()
 	{
 		return LonelehMining.class.getAnnotation(Manifest.class).name();
 	}
-	
 	public static double getVersion()
 	{
 		return LonelehMining.class.getAnnotation(Manifest.class).version();
 	}
+	public static boolean getHidden()
+	{
+		return LonelehMining.class.getAnnotation(Manifest.class).hidden();
+	}
 	
 	public static boolean stop = false;
 	
-	public static gui.GUI mainWindow;
-	public static paint.Paint paint = new paint.Paint();
+	public static GUI mainWindow;
+	public static Paint paint = new Paint();
+	public static SubmitServer submitter;
+	public static Logger logger = Bot.context().getScriptHandler().log;
 	
 	private void initialize()
 	{
-		System.out.println(getName() + " is initializing...");	
+		logger.info(getName() + " is initializing...");
 		
 		try
 		{
 			EventQueue.invokeLater(new Runnable()
 			{
+				@Override
 				public void run()
 				{
 					try
@@ -101,12 +126,9 @@ public class LonelehMining extends ActiveScript implements PaintListener, MouseL
 					}
 				}
 			});
-			
-			//Variables.initialized = true;
-			
-			
+
 			provide(
-					new Mining(new Node[]{new script.mining.nodes.Antiban(), new script.mining.nodes.CheckRequirements(), new script.mining.nodes.WalkToMines(), new script.mining.nodes.MineOres(), new script.mining.nodes.HoverRock(), new script.mining.nodes.WalkToBank(), new script.mining.nodes.BankOres(), new script.mining.nodes.DropOres()})
+					new Mining(new Node[]{new script.mining.nodes.Antiban(), new script.mining.nodes.CheckRequirements(), new script.mining.nodes.WalkToMines(), new script.mining.nodes.HoverRock(), new script.mining.nodes.MineOres(), new script.mining.nodes.WalkToBank(), new script.mining.nodes.BankOres(), new script.mining.nodes.DropOres()})
 					);
 		}
 		catch (Exception e)
@@ -118,7 +140,9 @@ public class LonelehMining extends ActiveScript implements PaintListener, MouseL
 	@Override
 	public void onStart()
 	{
-		System.out.println("Welcome to " + getName());
+		logger.info("Welcome to " + getName() + ", " + getPbName());
+		
+		Task.sleep(2000, 3000);
 		
 		initialize();
 	}
@@ -126,14 +150,15 @@ public class LonelehMining extends ActiveScript implements PaintListener, MouseL
 	@Override
 	public void onStop()
 	{
-		System.out.println("Thanks for using " + getName());
+		submitter.submit();
+
+		logger.info("Thanks for using " + getName());
 	}
 	@Override
 	public int loop()
 	{
 		if (Game.isLoggedIn())
 		{
-			
 			if (jobContainer != null)
 			{
 				final Node job = jobContainer.state();
@@ -167,25 +192,6 @@ public class LonelehMining extends ActiveScript implements PaintListener, MouseL
 		{
 			Paint.showDetails = !Paint.showDetails;
 		}
-		/*
-		else if (Paint.menuMainRect.contains(e.getPoint()))
-		{
-			Paint.selectorIndex = 0;
-		}
-		else if (Paint.menuMiningRect.contains(e.getPoint()))
-		{
-			Paint.selectorIndex = 1;
-		}
-		
-		else if (Paint.menuSmeltingRect.contains(e.getPoint()))
-		{
-			Paint.selectorIndex = 2;
-		}
-		else if (Paint.menuSmithingRect.contains(e.getPoint()))
-		{
-			Paint.selectorIndex = 3;
-		}
-		*/
 	}
 	@Override
 	public void mouseEntered(MouseEvent e)

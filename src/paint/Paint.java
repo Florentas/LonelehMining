@@ -19,11 +19,13 @@ import java.text.DecimalFormat;
 
 import javax.imageio.ImageIO;
 
-import org.powerbot.game.api.methods.tab.Skills;
-import org.powerbot.game.api.util.Time;
-
 import misc.Functions;
 import misc.Variables;
+
+import org.powerbot.game.api.methods.Calculations;
+import org.powerbot.game.api.methods.interactive.Players;
+import org.powerbot.game.api.methods.tab.Skills;
+import org.powerbot.game.api.util.Time;
 
 import script.LonelehMining;
 import script.mining.MiningVars;
@@ -44,15 +46,16 @@ public class Paint
 	private final Font font3 = new Font("Calibri", 1, 17);
 	private final Font font4 = new Font("Bitstream Vera Sans Mono", 0, 15);
 	private final Font titleFont = new Font("Elementary Gothic Bookhand", 0, 28);
-
 	
+	private final Color hoverTileColor = new Color(0xFF, 0xE8, 0x73, 150);
+	private final Color miningRockColor = new Color(0xFF, 0x07, 0x00, 35);
 	
 	//private final static Image logo = getImage("http://i818.photobucket.com/albums/zz107/mrjohnson90/smartmetallogo_zps0c770f8d.png");
 	//private final static Image logo = getImage("http://i818.photobucket.com/albums/zz107/mrjohnson90/good_metal_zps0a333127.png");
 	//private final static Image paintBg = getImage("http://i818.photobucket.com/albums/zz107/mrjohnson90/paintbg_zpsdec1192d.png");
 	//private final static Image selectorImg = getImage("http://i818.photobucket.com/albums/zz107/mrjohnson90/selector_zps315c1a63.png");
 	private final Image miningImg = getImage("http://i.imgur.com/JPeAkIQ.png");
-
+	
 	
 	
 	private final static Image hideButtonImg = getImage("http://i818.photobucket.com/albums/zz107/mrjohnson90/hidebutton_zpsb3bbc274.png");
@@ -86,8 +89,7 @@ public class Paint
 		}
 		catch(IOException e)
 		{
-			System.out.println("Cannot retrieve image from " + url + "!");
-			e.printStackTrace();
+			LonelehMining.logger.severe("Cannot retrieve image from " + url + "!");
 			return null;
 		}
 	}
@@ -101,26 +103,26 @@ public class Paint
 			if (showPaint)
 			{
 				g.setColor(bgColor);
-		        g.fillRoundRect(1, 388, 517, 141, 20, 20);
-		        g.setFont(titleFont);
-		        g.setColor(titleColor);
-		        g.drawString("Loneleh Mining", 128, 387);
-		        
-		        g.drawImage(miningImg, 43, 431, null);
-
+				g.fillRoundRect(1, 388, 517, 141, 20, 20);
+				g.setFont(titleFont);
+				g.setColor(titleColor);
+				g.drawString("Loneleh Mining", 128, 387);
+				
+				g.drawImage(miningImg, 43, 431, null);
+				
 				g.drawImage(hideButtonImg, hideButtonRect.x, hideButtonRect.y, null);
 				
 				g.setFont(font1);
 				g.setColor(color1);
 				g.drawString(version_s, 477, 67);
 				
-				String ores_s, oresPerHour_s, gems_s, gemsPerHour_s, gold_s, goldPerHour_s, exp_s, expPerHour_s;
+				String gold_s, goldPerHour_s, exp_s, expPerHour_s;
 				long profit = 0;
 				double exp = 0;
 				for (Ore o : MiningVars.oresToMine)
 				{
 					profit += (double)o.getCount()*o.getPrice();
-					exp += (double)o.getCount()*o.getExp();
+					exp += o.getCount()*o.getExp();
 				}
 				
 				int x = 160;
@@ -148,17 +150,17 @@ public class Paint
 					if (profit >= 10000000)
 					{
 						g.setColor(new Color(0x00, 0x76, 0x33));
-						gold_s = String.format("%.1fM gp", ((double)profit/1000000.0));
+						gold_s = String.format("%.1fM gp", (profit/1000000.0));
 					}
 					else if (profit >= 100000)
 					{
 						g.setColor(new Color(0xff, 0xff, 0xff));
-						gold_s = String.format("%.1fk gp", ((double)profit/1000.0));
+						gold_s = String.format("%.1fk gp", (profit/1000.0));
 					}
 					else if (profit >= 10000)
 					{
 						g.setColor(new Color(0xFF, 0x8B, 0x00));
-						gold_s = String.format("%.1fk gp", ((double)profit/1000.0));
+						gold_s = String.format("%.1fk gp", (profit/1000.0));
 					}
 					else
 					{
@@ -252,19 +254,48 @@ public class Paint
 				x += printCenter(g, percent, x, y+17, 485);
 				printRight(g, Time.format(Functions.getTimeToNextLv(Skills.MINING, (int)perHour(exp))) + " to " + (Skills.getLevel(Skills.MINING) + 1), 500, y + 17);
 				
-				
 				if (showDetails)
 				{
 					g.drawImage(lessDetailsButtonImg, lessDetailsButtonRect.x, lessDetailsButtonRect.y, null);
 					
+					int detailX = 20;
+					int detailY = 55;
+					
 					//start at (20, 55)
-					for (int i = 0 ; i < script.mining.MiningVars.oresToMine.size() ; i++)
+					if (MiningVars.oresToMine.size() < 9)
 					{
-						script.mining.Ore o = script.mining.MiningVars.oresToMine.get(i);
-						g.drawImage(o.getImage(), 20, 55 + (35*i), null);
-						printDetails(g, 55, 55 + (35*i) + 17, o);
+						detailY += 23;
 					}
 					
+					for (int i = 0 ; i < MiningVars.oresToMine.size() ; i++)
+					{
+						script.mining.Ore o = MiningVars.oresToMine.get(i);
+						g.drawImage(o.getImage(), detailX, detailY + (35*i), null);
+						printDetails(g, detailX + 35, detailY + 17 + (35*i), o);
+					}
+					
+					if (Players.getLocal().getAnimation() != 16385)
+					{
+						if (MiningVars.rockMining != null &&
+								MiningVars.rockMining.isOnScreen() &&
+								Calculations.distanceTo(MiningVars.rockMining) <= 23 &&
+								MiningVars.rockMining.validate())
+						{
+							g.setColor(miningRockColor);
+							MiningVars.rockMining.draw(g);
+						}
+						if (MiningVars.rockHover != null &&
+								MiningVars.rockHover.isOnScreen() &&
+								Calculations.distanceTo(MiningVars.rockHover) <= 23 &&
+								MiningVars.rockHover.validate())
+						{
+							if (MiningVars.rockHover.getLocation().getBounds().length > 0)
+							{
+								g.setColor(hoverTileColor);
+								g.fillPolygon(MiningVars.rockHover.getLocation().getBounds()[0]);
+							}
+						}
+					}
 				}
 				else
 				{
@@ -280,7 +311,7 @@ public class Paint
 	
 	private void printDetails(Graphics g, int x, int y, Ore ore)
 	{
-		String count_s = "", countPerHour_s = "", gold_s = "", goldPerHour_s = "", exp_s = "", expPerHour_s = "";
+		String count_s = "", gold_s = "", goldPerHour_s = "", exp_s = "", expPerHour_s = "";
 		long profit = ore.getCount()*ore.getPrice();
 		long count = ore.getCount();
 		
@@ -298,17 +329,17 @@ public class Paint
 			if (profit >= 10000000)
 			{
 				g.setColor(new Color(0x00, 0x76, 0x33));
-				gold_s = String.format("%.2fM gp", ((double)profit/1000000.0));
+				gold_s = String.format("%.2fM gp", (profit/1000000.0));
 			}
 			else if (profit >= 100000)
 			{
 				g.setColor(new Color(0xff, 0xff, 0xff));
-				gold_s = String.format("%.1fk gp", ((double)profit/1000.0));
+				gold_s = String.format("%.1fk gp", (profit/1000.0));
 			}
 			else if (profit >= 10000)
 			{
 				g.setColor(new Color(0xFF, 0x8B, 0x00));
-				gold_s = String.format("%.1fk gp", ((double)profit/1000.0));
+				gold_s = String.format("%.1fk gp", (profit/1000.0));
 			}
 			else
 			{
@@ -342,7 +373,7 @@ public class Paint
 		}
 		
 		//EXP
-		d = ((double)ore.getCount())*ore.getExp();
+		d = (ore.getCount())*ore.getExp();
 		if (d >= 10000000)
 		{
 			g.setColor(new Color(0x00, 0x76, 0x33));
@@ -392,7 +423,7 @@ public class Paint
 	private static double perHour(double gained) //money or exp etc
 	{
 		if (Variables.miningTimer == null) return 0.0;
-		return gained / ((double)Variables.miningTimer.getElapsedTime()/1000.0/3600.0);
+		return gained / (Variables.miningTimer.getElapsedTime()/1000.0/3600.0);
 	}
 	
 	private void percentBar(boolean vertical, int x, int y, int width, int height, double percentage, Color percentColor, Color color, Stroke stroke, Graphics2D g)

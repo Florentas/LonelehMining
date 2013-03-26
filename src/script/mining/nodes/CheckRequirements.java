@@ -4,6 +4,7 @@ import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.tab.Equipment;
 import org.powerbot.game.api.methods.tab.Inventory;
 
+import script.LonelehMining;
 import script.mining.MiningVars;
 
 /**
@@ -36,6 +37,6 @@ public class CheckRequirements extends Node
 	
 	private void requirementNotMet()
 	{
-		System.out.println("You don't have proper requirements to mine.\nDouble-check the requirements again.");
+		LonelehMining.logger.severe("You don't have proper requirements to mine. Double-check the requirements for your settings again.");
 	}
 }

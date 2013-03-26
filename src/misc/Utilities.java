@@ -125,6 +125,7 @@ public class Utilities {
 	 */
 	public static void cameraTurnTo(final Locatable loc) {
 		Thread t = new Thread() {
+			@Override
 			public void run() {
 				Camera.turnTo(loc);
 				if(!isOnScreen((Entity) loc))

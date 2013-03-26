@@ -333,6 +333,21 @@ public class Ore
 		return getRockGroupIds(MiningVars.miningLocation, type);
 	}
 	
+	public static long getTotalProfit()
+	{
+		long totalProfit = 0;
+		for (Ore o : MiningVars.oresToMine)
+			totalProfit += o.getCount()*o.getPrice();
+		return totalProfit;
+	}
+	
+	public static double getTotalExp()
+	{
+		double totalExp = 0;
+		for (Ore o : MiningVars.oresToMine)
+			totalExp += o.getCount()*o.getExp();
+		return totalExp;
+	}
 	
 	@Override
 	public boolean equals(Object obj)

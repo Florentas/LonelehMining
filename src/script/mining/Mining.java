@@ -11,6 +11,8 @@ import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.util.Filter;
 import org.powerbot.game.api.wrappers.node.SceneObject;
 
+import script.LonelehMining;
+
 public class Mining extends Branch
 {
 	
@@ -87,7 +89,7 @@ public class Mining extends Branch
 	public Mining(Node[] nodes)
 	{
 		super(nodes);
-		System.out.println("Accepted: Mining");
+		LonelehMining.logger.info("Accepted: Mining");
 	}
 	
 	@Override

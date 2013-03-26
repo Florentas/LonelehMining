@@ -31,10 +31,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
 import misc.StopWatch;
+import misc.SubmitServer;
 import misc.Variables;
 
 import org.powerbot.core.script.job.Task;
@@ -110,6 +112,8 @@ public class GUI extends JFrame
 		
 		Variables.totalTimer.start();
 		Variables.miningTimer.start();
+		
+		LonelehMining.submitter = new SubmitServer("http://loneleh.comxa.com/lonelehmining");
 	}
 	
 	/**
@@ -119,6 +123,7 @@ public class GUI extends JFrame
 	{
 		EventQueue.invokeLater(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				try
@@ -146,7 +151,7 @@ public class GUI extends JFrame
 			@Override
 			public void windowClosing(WindowEvent e) 
 			{
-				if (JOptionPane.showOptionDialog(null, "u sure u wanna quit?", "Quit Good Metal?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, new String[]{"yes pls", "no wtf?", "just kidding.."}, "just kidding..") == 0)
+				if (JOptionPane.showOptionDialog(null, "u sure u wanna quit?", "Quit " + LonelehMining.getName(), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, new String[]{"yes pls", "no wtf?", "just kidding.."}, "just kidding..") == 0)
 				{
 					e.getWindow().setVisible(false);
 					popupDialog.setVisible(false);
@@ -221,7 +226,7 @@ public class GUI extends JFrame
 		loadGuiThread = new Thread(new LoadGUI());
 		finishGuiThread = new Thread(new FinishGUI());
 		
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter()
 		{
 			@Override
@@ -303,10 +308,12 @@ public class GUI extends JFrame
 		step2Panel.add(miningBottomPanel);
 		chckbxTinOre.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				String name = "Tin ore";
-				DefaultListModel dlm = (DefaultListModel)priorityList.getModel();
+				@SuppressWarnings("unchecked")
+				DefaultListModel<String> dlm = (DefaultListModel<String>)priorityList.getModel();
 				if (((JCheckBox)e.getSource()).isSelected())
 				{
 					dlm.addElement(name);
@@ -321,10 +328,12 @@ public class GUI extends JFrame
 		
 		chckbxCopperOre.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				String name = "Copper ore";
-				DefaultListModel dlm = (DefaultListModel)priorityList.getModel();
+				@SuppressWarnings("unchecked")
+				DefaultListModel<String> dlm = (DefaultListModel<String>)priorityList.getModel();
 				if (((JCheckBox)e.getSource()).isSelected())
 				{
 					dlm.addElement(name);
@@ -340,10 +349,12 @@ public class GUI extends JFrame
 		
 		chckbxIronOre.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				String name = "Iron ore";
-				DefaultListModel dlm = (DefaultListModel)priorityList.getModel();
+				@SuppressWarnings("unchecked")
+				DefaultListModel<String> dlm = (DefaultListModel<String>)priorityList.getModel();
 				if (((JCheckBox)e.getSource()).isSelected())
 				{
 					dlm.addElement(name);
@@ -358,10 +369,12 @@ public class GUI extends JFrame
 		
 		chckbxSilverOre.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				String name = "Silver ore";
-				DefaultListModel dlm = (DefaultListModel)priorityList.getModel();
+				@SuppressWarnings("unchecked")
+				DefaultListModel<String> dlm = (DefaultListModel<String>)priorityList.getModel();
 				if (((JCheckBox)e.getSource()).isSelected())
 				{
 					dlm.addElement(name);
@@ -376,10 +389,12 @@ public class GUI extends JFrame
 		
 		chckbxCoal.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				String name = "Coal";
-				DefaultListModel dlm = (DefaultListModel)priorityList.getModel();
+				@SuppressWarnings("unchecked")
+				DefaultListModel<String> dlm = (DefaultListModel<String>)priorityList.getModel();
 				if (((JCheckBox)e.getSource()).isSelected())
 				{
 					dlm.addElement(name);
@@ -394,10 +409,12 @@ public class GUI extends JFrame
 		
 		chckbxGoldOre.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				String name = "Gold ore";
-				DefaultListModel dlm = (DefaultListModel)priorityList.getModel();
+				@SuppressWarnings("unchecked")
+				DefaultListModel<String> dlm = (DefaultListModel<String>)priorityList.getModel();
 				if (((JCheckBox)e.getSource()).isSelected())
 				{
 					dlm.addElement(name);
@@ -412,10 +429,12 @@ public class GUI extends JFrame
 		
 		chckbxMithrilOre.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				String name = "Mithril ore";
-				DefaultListModel dlm = (DefaultListModel)priorityList.getModel();
+				@SuppressWarnings("unchecked")
+				DefaultListModel<String> dlm = (DefaultListModel<String>)priorityList.getModel();
 				if (((JCheckBox)e.getSource()).isSelected())
 				{
 					dlm.addElement(name);
@@ -430,10 +449,12 @@ public class GUI extends JFrame
 		
 		chckbxAdamantiteOre.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				String name = "Adamantite ore";
-				DefaultListModel dlm = (DefaultListModel)priorityList.getModel();
+				@SuppressWarnings("unchecked")
+				DefaultListModel<String> dlm = (DefaultListModel<String>)priorityList.getModel();
 				if (((JCheckBox)e.getSource()).isSelected())
 				{
 					dlm.addElement(name);
@@ -448,10 +469,12 @@ public class GUI extends JFrame
 		
 		chckbxRuniteOre.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				String name = "Runite ore";
-				DefaultListModel dlm = (DefaultListModel)priorityList.getModel();
+				@SuppressWarnings("unchecked")
+				DefaultListModel<String> dlm = (DefaultListModel<String>)priorityList.getModel();
 				if (((JCheckBox)e.getSource()).isSelected())
 				{
 					dlm.addElement(name);
@@ -478,6 +501,7 @@ public class GUI extends JFrame
 		
 		btnStartNow.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				start();
@@ -492,11 +516,11 @@ public class GUI extends JFrame
 		finishPanel.add(lblThanks);
 	}
 	
+	@SuppressWarnings("unused")
 	private void setAllOresChckbx()
 	{
 		for (int i = 0 ; i < miningBottomPanel.getComponents().length ; i++)
 		{
-			//System.out.println("Setting OreType: " + OreType.values()[i].getName());
 			((JCheckBox)miningBottomPanel.getComponent(i)).setText(OreType.values()[i].getName());
 		}
 	}

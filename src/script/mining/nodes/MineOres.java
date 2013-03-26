@@ -23,7 +23,7 @@ public class MineOres extends Node
 	{
 		return MiningVars.requirementChecked &&
 				GUI.isFinished &&
-				!Inventory.isFull() && Mining.isAtMines()
+				Inventory.getCount() <= 27 && Mining.isAtMines()
 				&& !Players.getLocal().isInCombat();
 	}
 	

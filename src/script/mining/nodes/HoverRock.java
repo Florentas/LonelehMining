@@ -2,6 +2,7 @@ package script.mining.nodes;
 
 import misc.Utilities;
 
+import org.powerbot.core.script.job.Task;
 import org.powerbot.core.script.job.state.Node;
 import org.powerbot.core.script.util.Random;
 import org.powerbot.game.api.methods.input.Mouse;
@@ -46,10 +47,11 @@ public class HoverRock extends Node
 				
 				if (!MiningVars.rockHover.contains(Mouse.getLocation()))
 				{
-					//System.out.println("hovering over rock: " + MiningVars.rockHover.getDefinition().getName());
 					Mouse.move(MiningVars.rockHover.getCentralPoint());
 				}
 			}
 		}
+		
+		Task.sleep(50, 100);
 	}
 }

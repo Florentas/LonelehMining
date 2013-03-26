@@ -1,5 +1,7 @@
 package script.mining.nodes;
 
+import misc.Actionbar;
+
 import org.powerbot.core.script.job.Task;
 import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.interactive.Players;
@@ -29,6 +31,7 @@ public class DropOres extends Node
 			for (Item i : Inventory.getItems())
 			{
 				dropItem(i);
+				Task.sleep(100);
 			}
 		}
 		else
@@ -51,7 +54,14 @@ public class DropOres extends Node
 	{
 		if (i != null)
 		{
-			if (i.getName().endsWith("ore") || i.getName().equalsIgnoreCase("coal"))
+			if (Actionbar.isOpen() || Actionbar.open())
+			{
+				if ((i.getDefinition().getName().endsWith("ore") || i.getDefinition().getName().equalsIgnoreCase("coal")) &&
+						Actionbar.getSlotWithItem(i.getId()).activate(true)) //MUST MAKE SURE YOU DON'T HAVE IT SET ON '-' OR '='
+					return;
+			}
+			
+			if (i.getDefinition().getName().endsWith("ore") || i.getDefinition().getName().equalsIgnoreCase("coal"))
 			{
 				i.getWidgetChild().interact("Drop", i.getDefinition().getName());
 				Task.sleep(50);

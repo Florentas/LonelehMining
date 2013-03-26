@@ -1,6 +1,8 @@
 package script.mining.nodes;
 
+import misc.Condition;
 import misc.Functions;
+import misc.Utilities;
 
 import org.powerbot.core.script.job.state.Node;
 import org.powerbot.core.script.util.Random;
@@ -34,30 +36,66 @@ public class Antiban extends Node
 		case 2: //DropOres
 			
 			break;
-		case 3: //HoverRock
-			if (Functions.chanceOf(70))
+		case 3: //HoverRock //won't ever get here due to how the Node system works.
+			//if i switch MineOres node and HoverRocks node, case 4 will never be true and case 3 will be true instead
+			if (Functions.chanceOf(27))
 			{
 				Mouse.move(Mouse.getX()+Random.nextInt(-3, 3), Mouse.getY()+Random.nextInt(-3, 3));
 			}
 			break;
 		case 4: //MineOres
-			if (Functions.chanceOf(30))
+			if (Functions.chanceOf(2))
 			{
 				Camera.setPitch(Random.nextInt(47, 99));
 			}
-			if (MiningVars.rockMining.validate() && Players.getLocal().getAnimation() != 624)
+			if (MiningVars.rockMining != null && MiningVars.rockMining.validate() &&
+					Functions.chanceOf(27))
 			{
-				System.out.println("caught by antiban");
+				Mouse.move(Mouse.getX()+Random.nextInt(-3, 3), Mouse.getY()+Random.nextInt(-3, 3));
+			}
+			if (MiningVars.rockMining != null && MiningVars.rockMining.validate() &&
+					!Utilities.waitFor(new Condition()
+					{
+						@Override
+						public boolean validate()
+						{
+							return Players.getLocal().getAnimation() == 624;
+						}
+					}, 2000))
+			{
 				MiningVars.rockMining.interact("Mine", MiningVars.rockMining.getDefinition().getName());
+			}
+			if (MiningVars.rockMining != null && MiningVars.rockHover != null &&
+					MiningVars.rockMining.getLocation() != MiningVars.rockHover.getLocation() &&
+					MiningVars.rockMining.getBounds().length > 0 && MiningVars.rockHover.getBounds().length > 0 &&
+					MiningVars.rockMining.getBounds()[0].intersects(MiningVars.rockHover.getBounds()[0].getBounds2D()))
+			{
+				if (Functions.chanceOf(20))
+				{
+					Camera.setAngle(Camera.getYaw()+Random.nextInt(-10, 10));
+					Camera.setPitch(Camera.getPitch()+Random.nextInt(-5, 5));
+				}
+			}
+			if (MiningVars.rockHover != null && MiningVars.rockHover.getBounds().length == 0)
+			{
+				Camera.setPitch(Camera.getPitch()+Random.nextInt(20, 40));
 			}
 			break;
 		case 5: //WalkToBank
+			if (Players.getLocal().getAnimation() == 16385)
+			{
+				if (Functions.chanceOf(30))
+				{
+					Camera.setAngle(Camera.getYaw()+Random.nextInt(-13, 29));
+				}
+			}
 			if (!Functions.closeEnough(MiningLocation.getMinesToBankPath(MiningVars.miningLocation).getEnd(), 20))
 			{
 				if (Functions.chanceOf(15))
 				{
 					Thread t = new Thread()
 					{
+						@Override
 						public void run()
 						{
 							//System.out.println("orientation: " + (Players.getLocal().getOrientation()-90));
@@ -75,6 +113,7 @@ public class Antiban extends Node
 				{
 					Thread t = new Thread()
 					{
+						@Override
 						public void run()
 						{
 							Camera.setAngle(Players.getLocal().getOrientation()-90+Random.nextInt(-4, 4));
