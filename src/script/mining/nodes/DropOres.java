@@ -8,6 +8,7 @@ import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.wrappers.node.Item;
 
+import script.LonelehMining;
 import script.mining.Mining;
 import script.mining.MiningVars;
 
@@ -33,6 +34,10 @@ public class DropOres extends Node
 				dropItem(i);
 				Task.sleep(100);
 			}
+			
+			//TODO might cause overload on server...
+			if (LonelehMining.submitter != null)
+				LonelehMining.submitter.submit();
 		}
 		else
 		{

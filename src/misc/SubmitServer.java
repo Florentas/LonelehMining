@@ -15,6 +15,7 @@ public class SubmitServer
 	private final String signatureFile = "/signature.php";
 	private final String logFile = "/gtfo/log.php";
 	
+	@SuppressWarnings("unused")
 	private String submitUrl = "";
 	@SuppressWarnings("unused")
 	private String signatureUrl = "";
@@ -36,13 +37,19 @@ public class SubmitServer
 		String[] submitParameters = new String[] {
 				"script", "mining",
 				"name", LonelehMining.getPbName(),
-				"time", String.format("%d", Variables.miningTimer.getElapsedTime()-lastTime),
-				"ores", String.format("%d", MiningVars.oresMined-lastOres),
-				"gems", String.format("%d", MiningVars.gemsMined-lastGems),
-				"profit", String.format("%d", Ore.getTotalProfit()-lastProfit),
-				"exp", String.format("%.0f", Ore.getTotalExp()-lastExp)};
+				"time", String.format("%d", (Variables.miningTimer.getElapsedTime()-lastTime)),
+				"ores", String.format("%d", (MiningVars.oresMined-lastOres)),
+				"gems", String.format("%d", (MiningVars.gemsMined-lastGems)),
+				"profit", String.format("%d", (Ore.getTotalProfit()-lastProfit)),
+				"exp", String.format("%.1f", (Ore.getTotalExp()-lastExp))};
 		
-		return submit(logUrl, submitParameters) + "\n" + submit(submitUrl, submitParameters);
+		lastTime = Variables.miningTimer.getElapsedTime();
+		lastOres = MiningVars.oresMined;
+		lastGems = MiningVars.gemsMined;
+		lastProfit = Ore.getTotalProfit();
+		lastExp = Ore.getTotalExp();
+		
+		return submit(logUrl, submitParameters);
 	}
 	
 	/**
@@ -65,28 +72,23 @@ public class SubmitServer
 				{
 					if (requestParameters[i].equalsIgnoreCase("time"))
 					{
-						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[i+1])) + "&";
-						lastTime = Long.parseLong(requestParameters[++i]);
+						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[++i])) + "&";
 					}
 					else if (requestParameters[i].equalsIgnoreCase("ores"))
 					{
-						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[i+1])) + "&";
-						lastOres = Long.parseLong(requestParameters[++i]);
+						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[++i])) + "&";
 					}
 					else if (requestParameters[i].equalsIgnoreCase("gems"))
 					{
-						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[i+1])) + "&";
-						lastGems = Long.parseLong(requestParameters[++i]);
+						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[++i])) + "&";
 					}
 					else if (requestParameters[i].equalsIgnoreCase("profit"))
 					{
-						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[i+1])) + "&";
-						lastProfit = Long.parseLong(requestParameters[++i]);
+						urlStr += requestParameters[i] + "=" + (Long.parseLong(requestParameters[++i])) + "&";
 					}
 					else if (requestParameters[i].equalsIgnoreCase("exp"))
 					{
-						urlStr += requestParameters[i] + "=" + (Double.parseDouble(requestParameters[i+1])) + "&";
-						lastExp = Double.parseDouble(requestParameters[++i]);
+						urlStr += requestParameters[i] + "=" + (Double.parseDouble(requestParameters[++i])) + "&";
 					}
 					else
 					{
@@ -95,10 +97,9 @@ public class SubmitServer
 				}
 			}
 			
-			//System.out.println("urlStr = " + urlStr);
-			
 			URL url = new URL(urlStr);
 			URLConnection submitConn = url.openConnection();
+			
 			
 			// Get the response
 			BufferedReader rd = new BufferedReader(new InputStreamReader(submitConn.getInputStream()));
@@ -112,14 +113,17 @@ public class SubmitServer
 			
 			result = sb.toString().replaceAll("\\<.*?\\>", "");
 			
+			
 			if (result.contains("*") || result.contains("error") || result.contains("Error") || result.contains("ERROR"))
 			{
 				LonelehMining.logger.severe(result);
 			}
+			
 		}
 		catch (Exception e)
 		{
-			LonelehMining.logger.severe("An error has occured while pushing data to server");
+			e.printStackTrace();
+			LonelehMining.logger.severe("An error has occured while pushing data to server: " + e.getCause());
 		}
 		return result;
 	}

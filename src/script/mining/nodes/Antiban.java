@@ -98,7 +98,6 @@ public class Antiban extends Node
 						@Override
 						public void run()
 						{
-							//System.out.println("orientation: " + (Players.getLocal().getOrientation()-90));
 							Camera.setAngle(Players.getLocal().getOrientation()-90+Random.nextInt(-4, 4));
 						}
 					};

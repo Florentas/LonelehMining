@@ -1,6 +1,7 @@
 package script.mining.nodes;
 
 import org.powerbot.core.script.job.state.Node;
+import org.powerbot.core.script.methods.Game;
 import org.powerbot.game.api.methods.tab.Equipment;
 import org.powerbot.game.api.methods.tab.Inventory;
 
@@ -24,14 +25,17 @@ public class CheckRequirements extends Node
 	@Override
 	public void execute()
 	{
-		if (Equipment.appearanceContainsOneOf(MiningVars.pickIds) || Equipment.getItem(MiningVars.pickIds) != null
-				|| Inventory.contains(MiningVars.pickIds))
+		if (Game.isLoggedIn())
 		{
-			MiningVars.requirementChecked = true;
-		}
-		else
-		{
-			requirementNotMet();
+			if (Equipment.appearanceContainsOneOf(MiningVars.pickIds) || Equipment.getItem(MiningVars.pickIds) != null
+					|| Inventory.contains(MiningVars.pickIds))
+			{
+				MiningVars.requirementChecked = true;
+			}
+			else
+			{
+				requirementNotMet();
+			}
 		}
 	}
 	

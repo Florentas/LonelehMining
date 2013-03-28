@@ -10,8 +10,6 @@ public class Ore
 	private OreType type;
 	private long count = -1;
 	private double exp = -1.0;
-	//private static long goldEarned = 0;
-	//private static double expEarned = 0.0;
 	
 	public Ore(int id)
 	{
@@ -219,7 +217,7 @@ public class Ore
 			MiningVars.gemsMined++;
 		else
 			MiningVars.oresMined++;
-			*/
+		 */
 		MiningVars.oresMined++;
 		count++;
 	}
@@ -335,10 +333,17 @@ public class Ore
 	
 	public static long getTotalProfit()
 	{
-		long totalProfit = 0;
-		for (Ore o : MiningVars.oresToMine)
-			totalProfit += o.getCount()*o.getPrice();
-		return totalProfit;
+		if (MiningVars.miningStrategy.equalsIgnoreCase("banking"))
+		{
+			long totalProfit = 0;
+			for (Ore o : MiningVars.oresToMine)
+				totalProfit += o.getCount()*o.getPrice();
+			return totalProfit;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 	
 	public static double getTotalExp()
