@@ -31,13 +31,14 @@ import com.loneleh.LonelehMining.script.mining.MiningVars;
 import com.loneleh.LonelehMining.script.mining.Ore;
 
 @Manifest(
-		version = 1.32,
+		version = 1.321,
 		authors = {"xPropel"},
-		description = "<html>Makes mining <i>ever</i> so simple. Supports Al Kharid, Lumbridge Swamp(W) and Dwarven Hidden Mine; Banking and power mining!</html>",
+		description = "Makes mining ever so simple. Supports Al Kharid, Lumbridge Swamp(W) and Dwarven Hidden Mine; Banking and power mining!",
 		name = "Loneleh Mining",
 		singleinstance = true,
 		topic = 956629,
 		website = "http://www.powerbot.org/community/topic/956629-loneleh-mining-always-a-step-ahead/",
+		vip = false,
 		hidden = false)
 
 public class LonelehMining extends ActiveScript implements PaintListener, MouseListener, MessageListener
