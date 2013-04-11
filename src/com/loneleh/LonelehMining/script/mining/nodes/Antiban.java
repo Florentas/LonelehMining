@@ -6,7 +6,10 @@ import org.powerbot.game.api.methods.Walking;
 import org.powerbot.game.api.methods.Widgets;
 import org.powerbot.game.api.methods.input.Mouse;
 import org.powerbot.game.api.methods.interactive.Players;
+import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.methods.widget.Camera;
+import org.powerbot.game.api.util.Filter;
+import org.powerbot.game.api.wrappers.node.SceneObject;
 import org.powerbot.game.api.wrappers.widget.WidgetChild;
 
 import com.loneleh.LonelehMining.misc.Condition;
@@ -135,6 +138,24 @@ public class Antiban extends Node
 					runIcon.interact("Rest");
 				}
 			}
+			
+			
+			
+			/*
+			SceneObject[] walls = SceneEntities.getLoaded(new Filter<SceneObject>() {
+				@Override
+				public boolean accept(SceneObject so)
+				{
+					return so != null && so.validate() &&
+							so.getDefinition().getActions().length == 0;
+				}
+			});
+			
+			for (SceneObject w : walls)
+			{
+				
+			}
+			*/
 		}
 	}
 }

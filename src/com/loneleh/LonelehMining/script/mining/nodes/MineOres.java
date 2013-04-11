@@ -5,9 +5,11 @@ import org.powerbot.core.script.job.Task;
 import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.Calculations;
 import org.powerbot.game.api.methods.Walking;
+import org.powerbot.game.api.methods.Widgets;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.wrappers.node.SceneObject;
+import org.powerbot.game.api.wrappers.widget.WidgetChild;
 
 import com.loneleh.LonelehMining.gui.GUI;
 import com.loneleh.LonelehMining.misc.Condition;
@@ -17,6 +19,8 @@ import com.loneleh.LonelehMining.script.mining.MiningVars;
 
 public class MineOres extends Node
 {
+	WidgetChild miningWidget;
+	
 	@Override
 	public boolean activate()
 	{
@@ -68,6 +72,13 @@ public class MineOres extends Node
 			}
 			if (Mining.waitForRockMiningOnScreen(1500) && MiningVars.rockMining.isOnScreen() && MiningVars.rockMining.validate())
 			{
+				miningWidget = Widgets.get(1213,  15);
+				if (miningWidget != null && miningWidget.visible() && miningWidget.getBounds()[0].intersects(MiningVars.rockMining.getBounds()[0].getBounds2D())) //TODO fix this... fucking annoying, needing to walk every time
+				{
+					Walking.walk(MiningVars.rockMining);
+					Task.sleep(750, 1250);
+				}
+				
 				MiningVars.rockMining.interact("Mine", MiningVars.rockMining.getDefinition().getName());
 				
 				Task.sleep(100, 300);

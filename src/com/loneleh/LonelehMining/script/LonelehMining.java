@@ -24,15 +24,16 @@ import org.powerbot.game.api.util.Random;
 
 import com.loneleh.LonelehMining.gui.GUI;
 import com.loneleh.LonelehMining.misc.SubmitServer;
+import com.loneleh.LonelehMining.misc.Variables;
 import com.loneleh.LonelehMining.paint.Paint;
 import com.loneleh.LonelehMining.script.mining.Mining;
 import com.loneleh.LonelehMining.script.mining.MiningVars;
 import com.loneleh.LonelehMining.script.mining.Ore;
 
 @Manifest(
-		version = 1.3,
+		version = 1.32,
 		authors = {"xPropel"},
-		description = "<html>Makes mining <i>ever</i> so simple. Now supports Al Kharid and Lumbridge Swamp, banking, power mining, and so much more!</html>",
+		description = "<html>Makes mining <i>ever</i> so simple. Supports Al Kharid, Lumbridge Swamp(W) and Dwarven Hidden Mine; Banking and power mining!</html>",
 		name = "Loneleh Mining",
 		singleinstance = true,
 		topic = 956629,
@@ -120,6 +121,7 @@ public class LonelehMining extends ActiveScript implements PaintListener, MouseL
 					}
 					catch (Exception e)
 					{
+						logger.severe("You dun goof'ed");
 						e.printStackTrace();
 					}
 				}
@@ -152,6 +154,7 @@ public class LonelehMining extends ActiveScript implements PaintListener, MouseL
 			submitter.submit();
 
 		logger.info("Thanks for using " + getName());
+		logger.info("You gained " + Ore.getTotalExp() + " exp and profitted " + Ore.getTotalProfit() + "gp from mining " + MiningVars.oresMined + " and " + MiningVars.gemsMined + " gems in " + Variables.miningTimer.getElapsedTimeString());
 	}
 	@Override
 	public int loop()

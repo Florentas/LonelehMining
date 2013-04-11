@@ -24,15 +24,15 @@ public class BankOres extends Node
 		@Override
 		public boolean validate()
 		{
-			if (!MiningVars.miningStrategy.equalsIgnoreCase("banking")) return false;
-			
-			return ((Bank.open() || Bank.isOpen()) &&
+			return (Bank.getNearest() != null &&
+					(Bank.open() || Bank.isOpen()) &&
 					Widgets.get(Bank.WIDGET_BANK, Bank.WIDGET_BUTTON_DEPOSIT_INVENTORY) != null &&
 					Widgets.get(Bank.WIDGET_BANK, Bank.WIDGET_BUTTON_DEPOSIT_INVENTORY).validate())
 					||
-					((DepositBox.open() || DepositBox.isOpen()) &&
-							Widgets.get(DepositBox.WIDGET_DEPOSIT_BOX, DepositBox.WIDGET_BUTTON_DEPOSIT_INVENTORY) != null &&
-							Widgets.get(DepositBox.WIDGET_DEPOSIT_BOX, DepositBox.WIDGET_BUTTON_DEPOSIT_INVENTORY).validate());
+					(DepositBox.getNearest() != null &&
+					(DepositBox.open() || DepositBox.isOpen()) &&
+					Widgets.get(DepositBox.WIDGET_DEPOSIT_BOX, DepositBox.WIDGET_BUTTON_DEPOSIT_INVENTORY) != null &&
+					Widgets.get(DepositBox.WIDGET_DEPOSIT_BOX, DepositBox.WIDGET_BUTTON_DEPOSIT_INVENTORY).validate());
 		}
 	};
 	
@@ -54,6 +54,9 @@ public class BankOres extends Node
 	@Override
 	public void execute()
 	{
+		if (!MiningVars.miningStrategy.equalsIgnoreCase("banking"))
+			LonelehMining.revoke(this);
+		
 		MiningVars.action = 1;
 		
 		depositAll(true, MiningVars.pickIds);
@@ -75,14 +78,16 @@ public class BankOres extends Node
 			Camera.setPitch(Random.nextInt(22, 72));
 		}
 		
-		if (Utilities.waitFor(storageOpen, 3000))
+		if (Utilities.waitFor(storageOpen, 5000))
 		{
 			Task.sleep(250, 500);
-				
-			if (!Inventory.contains(exclude)) //TODO this is next
+			
+			if (!Inventory.contains(exclude))
 			{
-				Bank.depositInventory();
-				DepositBox.depositInventory();
+				if (Bank.getNearest() != null)
+					Bank.depositInventory();
+				else if (DepositBox.getNearest() != null)
+					DepositBox.depositInventory();
 			}
 			else
 			{
@@ -106,8 +111,10 @@ public class BankOres extends Node
 				Task.sleep(250, 500);
 				if (close)
 				{
-					Bank.close();
-					DepositBox.close();
+					if (Bank.getNearest() != null)
+						Bank.close();
+					else if (DepositBox.getNearest() != null)
+						DepositBox.close();
 				}
 			}
 		}

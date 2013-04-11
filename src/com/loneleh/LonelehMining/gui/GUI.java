@@ -61,12 +61,11 @@ public class GUI extends JFrame
 	private Thread loadGuiThread, finishGuiThread;
 	
 	private JPanel contentPane;
+	private final JPanel titlePanel = new JPanel();
+	private final JLabel titleLabel = new JLabel("<html><b>Loneleh Mining</b> - brought to you by xPropel</html>");
 	private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 	private final JPanel step1Panel = new JPanel();
-	private final JPanel step2Panel = new JPanel();
-	
-	//step1Panel
-	private final JLabel lblTitle = new JLabel("<html><b>Loneleh Mining</b> - brought to you by xPropel</html>");;
+	private final JPanel step2Panel = new JPanel();;
 	private final JPanel actionsPanel = new JPanel();
 	private final JLabel lblInstructions1 = new JLabel("What will you be doing?");
 	private final JCheckBox chckbxMining = new JCheckBox("Mining");
@@ -88,6 +87,7 @@ public class GUI extends JFrame
 	private final JCheckBox chckbxMithrilOre = new JCheckBox("Mithril ore");
 	private final JCheckBox chckbxAdamantiteOre = new JCheckBox("Adamantite ore");
 	private final JCheckBox chckbxRuniteOre = new JCheckBox("Runite ore");
+	private final JCheckBox chckbxClay = new JCheckBox("Clay");
 	private final PriorityList priorityList = new PriorityList();
 	private final JPanel finishPanel = new JPanel();
 	private final JButton btnStartNow = new JButton("Start now!");;
@@ -98,7 +98,6 @@ public class GUI extends JFrame
 	private JDialog popupDialog;
 	private JProgressBar progressBar;
 	private JLabel lblPopupStatus;
-	private final JCheckBox chckbxClay = new JCheckBox("Clay");
 	
 	private void start()
 	{
@@ -119,6 +118,13 @@ public class GUI extends JFrame
 		Variables.miningTimer.start();
 		
 		LonelehMining.submitter = new SubmitServer("http://loneleh.comxa.com/lonelehmining");
+		
+		LonelehMining.logger.info("Location: " + MiningVars.miningLocation);
+		LonelehMining.logger.info("Strategy: " + MiningVars.miningStrategy);
+		String rocks = "";
+		for (Ore o : MiningVars.oresToMine)
+			rocks += " " + o.getName();
+		LonelehMining.logger.info("Rocks:" + rocks);
 	}
 	
 	/**
@@ -269,19 +275,16 @@ public class GUI extends JFrame
 		{
 			e.printStackTrace();
 		}
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 310);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		contentPane.add(tabbedPane, BorderLayout.CENTER);
+		contentPane.setLayout(null);
+		tabbedPane.setBounds(5, 52, 434, 218);
+		contentPane.add(tabbedPane);
 		tabbedPane.addTab("Step 1", null, step1Panel, null);
 		step1Panel.setLayout(null);
-		
-		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTitle.setBounds(64, 59, 300, 23);
-		step1Panel.add(lblTitle);
-		actionsPanel.setBounds(49, 141, 330, 33);
+		actionsPanel.setBounds(55, 76, 330, 38);
 		
 		step1Panel.add(actionsPanel);
 		lblInstructions1.setToolTipText("Select any metal related tasks you want to do");
@@ -301,7 +304,7 @@ public class GUI extends JFrame
 		
 		tabbedPane.addTab("Step 2: (mining)", null, step2Panel, null);
 		step2Panel.setLayout(null);
-		miningLocPanel.setBounds(61, 11, 306, 32);
+		miningLocPanel.setBounds(8, 11, 250, 32);
 		
 		step2Panel.add(miningLocPanel);
 		miningLocPanel.add(lblMiningLocation);
@@ -317,7 +320,7 @@ public class GUI extends JFrame
 		
 		comboBoxMiningLoc.setModel(new DefaultComboBoxModel<String>(MiningLocation.valuesToString()));
 		comboBoxMiningLoc.setSelectedIndex(0);
-		miningStrategyPanel.setBounds(61, 54, 306, 32);
+		miningStrategyPanel.setBounds(266, 11, 155, 32);
 		
 		step2Panel.add(miningStrategyPanel);
 		miningStrategyPanel.add(lblStrategy);
@@ -325,7 +328,7 @@ public class GUI extends JFrame
 		comboBoxMiningStrategy.setToolTipText("<html>\r\n<b>Power Mining:</b> EXP; mine and drop ores<br>\r\n<b>Banking:</b> Profit; banks all your ores/gems mined\r\n</html>");
 		comboBoxMiningStrategy.setModel(new DefaultComboBoxModel<String>(MiningVars.miningStrategies));
 		
-		miningBottomPanel.setBounds(10, 97, 286, 87);
+		miningBottomPanel.setBounds(9, 54, 286, 87);
 		step2Panel.add(miningBottomPanel);
 		chckbxTinOre.addItemListener(new ItemListener()
 		{
@@ -512,14 +515,14 @@ public class GUI extends JFrame
 		});
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(304, 97, 115, 125);
+		scrollPane.setBounds(304, 54, 115, 125);
 		step2Panel.add(scrollPane);
 		scrollPane.setViewportView(priorityList);
 		priorityList.setVisibleRowCount(6);
 		priorityList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		
 		priorityList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		btnSelectAll.setBounds(61, 195, 89, 23);
+		btnSelectAll.setBounds(44, 152, 89, 23);
 		step2Panel.add(btnSelectAll);
 		
 		JButton btnDeselectAll = new JButton("Deselect all");
@@ -532,7 +535,7 @@ public class GUI extends JFrame
 						((JCheckBox)c).setSelected(false);
 			}
 		});
-		btnDeselectAll.setBounds(176, 195, 89, 23);
+		btnDeselectAll.setBounds(171, 152, 89, 23);
 		step2Panel.add(btnDeselectAll);
 		finishPanel.addComponentListener(new ComponentAdapter()
 		{
@@ -555,12 +558,20 @@ public class GUI extends JFrame
 			}
 		});
 		btnStartNow.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnStartNow.setBounds(119, 81, 190, 70);
+		btnStartNow.setBounds(119, 60, 190, 70);
 		finishPanel.add(btnStartNow);
 		
 		lblThanks.setHorizontalAlignment(SwingConstants.CENTER);
 		lblThanks.setBounds(0, 182, 429, 40);
 		finishPanel.add(lblThanks);
+		titlePanel.setBounds(5, 5, 434, 38);
+		
+		contentPane.add(titlePanel);
+		titlePanel.setLayout(null);
+		titleLabel.setBounds(68, 9, 298, 19);
+		titleLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		
+		titlePanel.add(titleLabel);
 	}
 	
 	private void updateCheckboxStates()

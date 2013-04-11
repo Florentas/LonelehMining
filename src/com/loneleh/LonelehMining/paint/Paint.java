@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
@@ -19,8 +20,11 @@ import javax.imageio.ImageIO;
 
 import org.powerbot.game.api.methods.Calculations;
 import org.powerbot.game.api.methods.interactive.Players;
+import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.methods.tab.Skills;
+import org.powerbot.game.api.util.Filter;
 import org.powerbot.game.api.util.Time;
+import org.powerbot.game.api.wrappers.node.SceneObject;
 
 import com.loneleh.LonelehMining.gui.GUI;
 import com.loneleh.LonelehMining.misc.Functions;
@@ -94,10 +98,81 @@ public class Paint
 	
 	public void onRepaint(Graphics g1)
 	{
+		Graphics2D g = (Graphics2D)g1;
+		//TODO paint da walls?? testing shit here
+		/*
+		SceneObject[] blockages = SceneEntities.getLoaded(new Filter<SceneObject>() {
+			@Override
+			public boolean accept(SceneObject so)
+			{
+				return so != null && so.validate();
+			}
+		});
+		
+		
+		
+		if (MiningVars.rockMining != null && MiningVars.rockMining.getBounds() != null)
+		{
+			for (SceneObject b : blockages)
+			{
+				Polygon[] rmBounds = MiningVars.rockMining.getBounds();
+				long overlap = 0;
+				
+				for (int i = 0 ; i < b.getBounds().length ; i++)
+				{
+					for (int j = 0 ; j < rmBounds.length ; j++)
+					{
+						for (int x = 0 ; x < rmBounds[j].xpoints.length ; x++)
+						{
+							for (int y = 0 ; y < rmBounds[j].ypoints.length ; y++)
+							{
+								if (b.getBounds()[i].contains(rmBounds[j].xpoints[x], rmBounds[j].ypoints[y]))
+								{
+									overlap++;
+								}
+							}
+						}
+					}
+				}
+				
+				System.out.println(overlap);
+				
+				
+				
+				
+				/*
+			if (s.getLocation() != null)
+			{
+				int orientation = Players.getLocal().getOrientation();
+				
+				
+				
+				
+				switch (orientation)
+				{
+				case 0: //E
+					
+						break;
+				case 90: //N
+					
+					break;
+				case 180: //W
+					
+					break;
+				case 270: //S
+					
+					break;
+				default:
+					break;
+				}
+				
+			}
+			}
+			
+		}
+		*/
 		if (GUI.isFinished)
 		{
-			Graphics2D g = (Graphics2D)g1;
-			
 			if (showPaint)
 			{
 				g.setColor(bgColor);
@@ -143,27 +218,27 @@ public class Paint
 				double d;
 				if (MiningVars.miningStrategy.equalsIgnoreCase("banking"))
 				{
-					g.drawString(String.format("%s", MiningVars.oresMined), x+valueShift, y+(lineShift));
-					g.drawString(String.format("%s", MiningVars.gemsMined), x+valueShift, y+(2*lineShift));
+					g.drawString(String.format("%,d", MiningVars.oresMined), x+valueShift, y+(lineShift));
+					g.drawString(String.format("%,d", MiningVars.gemsMined), x+valueShift, y+(2*lineShift));
 					if (profit >= 10000000)
 					{
 						g.setColor(new Color(0x00, 0x76, 0x33));
-						gold_s = String.format("%.1fM gp", (profit/1000000.0));
+						gold_s = String.format("%,.1fM gp", (profit/1000000.0));
 					}
 					else if (profit >= 100000)
 					{
 						g.setColor(new Color(0xff, 0xff, 0xff));
-						gold_s = String.format("%.1fk gp", (profit/1000.0));
+						gold_s = String.format("%,.1fk gp", (profit/1000.0));
 					}
 					else if (profit >= 10000)
 					{
 						g.setColor(new Color(0xFF, 0x8B, 0x00));
-						gold_s = String.format("%.1fk gp", (profit/1000.0));
+						gold_s = String.format("%,.1fk gp", (profit/1000.0));
 					}
 					else
 					{
 						g.setColor(new Color(0xff, 0xff, 0x00));
-						gold_s = String.format("%d gp", profit);
+						gold_s = String.format("%,d gp", profit);
 					}
 					g.drawString(gold_s, x+valueShift + 3, y+(3*lineShift));
 					
@@ -171,22 +246,22 @@ public class Paint
 					if (d >= 10000000)
 					{
 						g.setColor(new Color(0x00, 0x76, 0x33));
-						goldPerHour_s = String.format("(%.1fM gp/hr", d/1000000.0);
+						goldPerHour_s = String.format("(%,.1fM gp/hr", d/1000000.0);
 					}
 					else if (d >= 100000)
 					{
 						g.setColor(new Color(0xff, 0xff, 0xff));
-						goldPerHour_s = String.format("(%.1fk gp/hr)", d/1000.0);
+						goldPerHour_s = String.format("(%,.1fk gp/hr)", d/1000.0);
 					}
 					else if (d >= 10000)
 					{
 						g.setColor(new Color(0xFF, 0x8B, 0x00));
-						goldPerHour_s = String.format("(%.1fk gp/hr)", d/1000.0);
+						goldPerHour_s = String.format("(%,.1fk gp/hr)", d/1000.0);
 					}
 					else
 					{
 						g.setColor(new Color(0xff, 0xff, 0x00));
-						goldPerHour_s = String.format("(%.2f gp/hr)", d);
+						goldPerHour_s = String.format("(%,.2f gp/hr)", d);
 					}
 					g.drawString(goldPerHour_s, x+valueShift+(g.getFontMetrics().stringWidth(gold_s) + 3), y+(3*lineShift));
 				}
@@ -195,22 +270,22 @@ public class Paint
 				if (d >= 10000000)
 				{
 					g.setColor(new Color(0x00, 0x76, 0x33));
-					exp_s = String.format("%.1fM exp", d/1000000.0);
+					exp_s = String.format("%,.1fM exp", d/1000000.0);
 				}
 				else if (d >= 100000)
 				{
 					g.setColor(new Color(0xff, 0xff, 0xff));
-					exp_s = String.format("%.1fk exp", d/1000.0);
+					exp_s = String.format("%,.1fk exp", d/1000.0);
 				}
 				else if (d >= 10000)
 				{
 					g.setColor(new Color(0xFF, 0x8B, 0x00));
-					exp_s = String.format("%.1fk exp", d/1000.0);
+					exp_s = String.format("%,.1fk exp", d/1000.0);
 				}
 				else
 				{
 					g.setColor(new Color(0xff, 0xff, 0x00));
-					exp_s = String.format("%.2f exp", d);
+					exp_s = String.format("%,.2f exp", d);
 				}
 				g.drawString(exp_s, x+valueShift + 3, y+(4*lineShift));
 				
@@ -218,22 +293,22 @@ public class Paint
 				if (d >= 10000000)
 				{
 					g.setColor(new Color(0x00, 0x76, 0x33));
-					expPerHour_s = String.format("(%.1fM exp/hr", d/1000000.0);
+					expPerHour_s = String.format("(%,.1fM exp/hr", d/1000000.0);
 				}
 				else if (d >= 100000)
 				{
 					g.setColor(new Color(0xff, 0xff, 0xff));
-					expPerHour_s = String.format("(%.1fk exp/hr)", d/1000.0);
+					expPerHour_s = String.format("(%,.1fk exp/hr)", d/1000.0);
 				}
 				else if (d >= 10000)
 				{
 					g.setColor(new Color(0xFF, 0x8B, 0x00));
-					expPerHour_s = String.format("(%.1fk exp/hr)", d/1000.0);
+					expPerHour_s = String.format("(%,.1fk exp/hr)", d/1000.0);
 				}
 				else
 				{
 					g.setColor(new Color(0xff, 0xff, 0x00));
-					expPerHour_s = String.format("(%.2f exp/hr)", d);
+					expPerHour_s = String.format("(%,.2f exp/hr)", d);
 				}
 				g.drawString(expPerHour_s, x+valueShift+(g.getFontMetrics().stringWidth(exp_s) + 3), y+(4*lineShift));
 				
@@ -245,10 +320,10 @@ public class Paint
 						(double)(Variables.xpsToLevel[Skills.getLevel(Skills.MINING)+1]-Variables.xpsToLevel[Skills.getLevel(Skills.MINING)])
 						)
 						*100.0;
-				String percent = String.format("%.1f %%", d);
+				String percent = String.format("%,.1f %%", d);
 				percentBar(false, x, y, 485, 20, d, new Color(0xD3, 0xD3, 0xD3), new Color(0x70, 0x80, 0x90), new BasicStroke(1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f), g);
 				g.setColor(Color.BLACK);
-				g.drawString(String.format("%d", Skills.getLevel(Skills.MINING)), x+2, y+17);
+				g.drawString(String.format("%,d", Skills.getLevel(Skills.MINING)), x+2, y+17);
 				x += printCenter(g, percent, x, y+17, 485);
 				printRight(g, Time.format(Functions.getTimeToNextLv(Skills.MINING, (int)perHour(exp))) + " to " + (Skills.getLevel(Skills.MINING) + 1), 500, y + 17);
 				
@@ -294,6 +369,22 @@ public class Paint
 							}
 						}
 					}
+					/*
+					//TODO paint da walls??
+					SceneObject[] walls = SceneEntities.getLoaded(new Filter<SceneObject>() {
+						@Override
+						public boolean accept(SceneObject so)
+						{
+							return so != null && so.validate() &&
+									so.getDefinition() == null;
+						}
+					});
+					
+					for (SceneObject w : walls)
+					{
+						w.draw(g);
+					}
+					 */
 				}
 				else
 				{
@@ -320,29 +411,29 @@ public class Paint
 		{
 			//COUNT
 			g.setColor(Color.BLACK);
-			count_s = String.format(":%d ~ ", count);
+			count_s = String.format(":%,d ~ ", count);
 			g.drawString(count_s, x, y);
 			
 			//GOLD
 			if (profit >= 10000000)
 			{
 				g.setColor(new Color(0x00, 0x76, 0x33));
-				gold_s = String.format("%.2fM gp", (profit/1000000.0));
+				gold_s = String.format("%,.2fM gp", (profit/1000000.0));
 			}
 			else if (profit >= 100000)
 			{
 				g.setColor(new Color(0xff, 0xff, 0xff));
-				gold_s = String.format("%.1fk gp", (profit/1000.0));
+				gold_s = String.format("%,.1fk gp", (profit/1000.0));
 			}
 			else if (profit >= 10000)
 			{
 				g.setColor(new Color(0xFF, 0x8B, 0x00));
-				gold_s = String.format("%.1fk gp", (profit/1000.0));
+				gold_s = String.format("%,.1fk gp", (profit/1000.0));
 			}
 			else
 			{
 				g.setColor(new Color(0xff, 0xff, 0x00));
-				gold_s = String.format("%d gp", profit);
+				gold_s = String.format("%,d gp", profit);
 			}
 			g.drawString(gold_s, x+=(g.getFontMetrics().stringWidth(count_s) + 3), y);
 			
@@ -350,22 +441,22 @@ public class Paint
 			if (d >= 10000000)
 			{
 				g.setColor(new Color(0x00, 0x76, 0x33));
-				goldPerHour_s = String.format("(%.1fM gp/hr)", d/1000000.0);
+				goldPerHour_s = String.format("(%,.1fM gp/hr)", d/1000000.0);
 			}
 			else if (d >= 100000)
 			{
 				g.setColor(new Color(0xff, 0xff, 0xff));
-				goldPerHour_s = String.format("(%.1fk gp/hr)", d/1000.0);
+				goldPerHour_s = String.format("(%,.1fk gp/hr)", d/1000.0);
 			}
 			else if (d >= 10000)
 			{
 				g.setColor(new Color(0xFF, 0x8B, 0x00));
-				goldPerHour_s = String.format("(%.1fk gp/hr)", d/1000.0);
+				goldPerHour_s = String.format("(%,.1fk gp/hr)", d/1000.0);
 			}
 			else
 			{
 				g.setColor(new Color(0xff, 0xff, 0x00));
-				goldPerHour_s = String.format("(%.2f gp/hr)", d);
+				goldPerHour_s = String.format("(%,.2f gp/hr)", d);
 			}
 			g.drawString(goldPerHour_s, x+=(g.getFontMetrics().stringWidth(gold_s) + 3), y);
 		}
@@ -375,22 +466,22 @@ public class Paint
 		if (d >= 10000000)
 		{
 			g.setColor(new Color(0x00, 0x76, 0x33));
-			exp_s = String.format(" ~ %.1fM exp", d/1000000.0);
+			exp_s = String.format(" ~ %,.1fM exp", d/1000000.0);
 		}
 		else if (d >= 100000)
 		{
 			g.setColor(new Color(0xff, 0xff, 0xff));
-			exp_s = String.format(" ~ %.1fk exp", d/1000.0);
+			exp_s = String.format(" ~ %,.1fk exp", d/1000.0);
 		}
 		else if (d >= 10000)
 		{
 			g.setColor(new Color(0xFF, 0x8B, 0x00));
-			exp_s = String.format(" ~ %.1fk exp", d/1000.0);
+			exp_s = String.format(" ~ %,.1fk exp", d/1000.0);
 		}
 		else
 		{
 			g.setColor(new Color(0xff, 0xff, 0x00));
-			exp_s = String.format(" ~ %.2f exp", d);
+			exp_s = String.format(" ~ %,.2f exp", d);
 		}
 		g.drawString(exp_s, x+=(g.getFontMetrics().stringWidth(goldPerHour_s) + 3), y);
 		
@@ -398,22 +489,22 @@ public class Paint
 		if (d >= 10000000)
 		{
 			g.setColor(new Color(0x00, 0x76, 0x33));
-			expPerHour_s = String.format("(%.1fM exp/hr)", d/1000000.0);
+			expPerHour_s = String.format("(%,.1fM exp/hr)", d/1000000.0);
 		}
 		else if (d >= 100000)
 		{
 			g.setColor(new Color(0xff, 0xff, 0xff));
-			expPerHour_s = String.format("(%.1fk exp/hr)", d/1000.0);
+			expPerHour_s = String.format("(%,.1fk exp/hr)", d/1000.0);
 		}
 		else if (d >= 10000)
 		{
 			g.setColor(new Color(0xFF, 0x8B, 0x00));
-			expPerHour_s = String.format("(%.1fk exp/hr)", d/1000.0);
+			expPerHour_s = String.format("(%,.1fk exp/hr)", d/1000.0);
 		}
 		else
 		{
 			g.setColor(new Color(0xff, 0xff, 0x00));
-			expPerHour_s = String.format("(%.2f exp/hr)", d);
+			expPerHour_s = String.format("(%,.2f exp/hr)", d);
 		}
 		g.drawString(expPerHour_s, x+=(g.getFontMetrics().stringWidth(exp_s) + 3), y);
 	}
