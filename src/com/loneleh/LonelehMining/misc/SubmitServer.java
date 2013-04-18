@@ -13,7 +13,7 @@ public class SubmitServer
 {
 	private final String submitFile = "/submit.php";
 	private final String signatureFile = "/signature.php";
-	private final String logFile = "/gtfo/log.php";
+	private final String logFile = "/log.php";
 	
 	@SuppressWarnings("unused")
 	private String submitUrl = "";
@@ -29,7 +29,7 @@ public class SubmitServer
 	
 	public SubmitServer()
 	{
-		new SubmitServer("http://loneleh.comxa.com/lonelehmining");
+		this("http://loneleh.comxa.com/mining");
 	}
 	
 	public SubmitServer(String url)
@@ -105,7 +105,6 @@ public class SubmitServer
 			URL url = new URL(urlStr);
 			URLConnection submitConn = url.openConnection();
 			
-			
 			// Get the response
 			BufferedReader rd = new BufferedReader(new InputStreamReader(submitConn.getInputStream()));
 			StringBuffer sb = new StringBuffer();
@@ -118,12 +117,10 @@ public class SubmitServer
 			
 			result = sb.toString().replaceAll("\\<.*?\\>", "");
 			
-			
 			if (result.contains("*") || result.contains("error") || result.contains("Error") || result.contains("ERROR"))
 			{
 				LonelehMining.logger.severe(result);
 			}
-			
 		}
 		catch (Exception e)
 		{

@@ -31,7 +31,7 @@ import com.loneleh.LonelehMining.script.mining.MiningVars;
 import com.loneleh.LonelehMining.script.mining.Ore;
 
 @Manifest(
-		version = 1.321,
+		version = 1.322,
 		authors = {"xPropel"},
 		description = "Makes mining ever so simple. Supports Al Kharid, Lumbridge Swamp(W) and Dwarven Hidden Mine; Banking and power mining!",
 		name = "Loneleh Mining",
@@ -155,7 +155,8 @@ public class LonelehMining extends ActiveScript implements PaintListener, MouseL
 			submitter.submit();
 
 		logger.info("Thanks for using " + getName());
-		logger.info("You gained " + Ore.getTotalExp() + " exp and profitted " + Ore.getTotalProfit() + "gp from mining " + MiningVars.oresMined + " and " + MiningVars.gemsMined + " gems in " + Variables.miningTimer.getElapsedTimeString());
+		if (Variables.miningTimer != null && Variables.miningTimer.getElapsedTime() > 0);
+			logger.info("You gained " + Ore.getTotalExp() + " exp and profitted " + Ore.getTotalProfit() + "gp from mining " + MiningVars.oresMined + " ores and " + MiningVars.gemsMined + " gems in " + Variables.miningTimer.getElapsedTimeString());
 	}
 	@Override
 	public int loop()

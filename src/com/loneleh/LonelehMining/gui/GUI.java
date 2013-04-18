@@ -117,7 +117,7 @@ public class GUI extends JFrame
 		Variables.totalTimer.start();
 		Variables.miningTimer.start();
 		
-		LonelehMining.submitter = new SubmitServer("http://loneleh.comxa.com/lonelehmining");
+		LonelehMining.submitter = new SubmitServer();
 		
 		LonelehMining.logger.info("Location: " + MiningVars.miningLocation);
 		LonelehMining.logger.info("Strategy: " + MiningVars.miningStrategy);
