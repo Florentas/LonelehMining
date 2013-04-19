@@ -5,6 +5,7 @@ import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.util.Filter;
+import org.powerbot.game.api.wrappers.Tile;
 import org.powerbot.game.api.wrappers.node.SceneObject;
 
 import com.loneleh.LonelehMining.misc.Condition;
@@ -34,7 +35,7 @@ public class Mining extends Branch
 			return false;
 		}
 	};
-	*/
+	 */
 	
 	private static Filter<SceneObject> priorityRockFilter = new Filter<SceneObject>() {
 		
@@ -104,7 +105,15 @@ public class Mining extends Branch
 	
 	public static boolean isAtMines()
 	{
-		return MiningLocation.getMiningArea(MiningVars.miningLocation).contains(Players.getLocal());
+		if (MiningVars.miningLocation.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()))
+		{
+			Tile tile = new Tile(3022, 9741, 0);
+			return tile != null && tile.canReach();
+		}
+		else
+		{
+			return MiningLocation.getMiningArea(MiningVars.miningLocation).contains(Players.getLocal());
+		}
 	}
 	
 	public static SceneObject findNewRock()
@@ -118,7 +127,7 @@ public class Mining extends Branch
 		{
 			index = i;
 			rock = SceneEntities.getNearest(priorityRockFilter);
-			if (rock != null)
+			if (rock != null && MiningLocation.getMiningArea(MiningVars.miningLocation).contains(rock.getLocation()))
 			{
 				return rock;
 			}

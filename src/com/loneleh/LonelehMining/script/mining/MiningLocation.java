@@ -1,9 +1,11 @@
 package com.loneleh.LonelehMining.script.mining;
 
 import org.powerbot.game.api.methods.Walking;
+import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.wrappers.Area;
 import org.powerbot.game.api.wrappers.Tile;
 import org.powerbot.game.api.wrappers.map.TilePath;
+import org.powerbot.game.api.wrappers.node.SceneObject;
 
 public enum MiningLocation
 {
@@ -142,8 +144,7 @@ public enum MiningLocation
 		}
 		else if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()))
 		{
-			//TODO mining guild area
-			return new Area();
+			return new Area(new Tile[] { new Tile(3015, 9730, 0), new Tile(3060, 9730, 0), new Tile(3060, 9756, 0), new Tile(3015, 9756, 0)});
 		}
 		else if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD_RD.getName()))
 		{
@@ -202,7 +203,6 @@ public enum MiningLocation
 		}
 		else if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()))
 		{
-			//TODO need to fix this so that it will account for the traveling to ladder
 			return Walking.newTilePath(new Tile[] { new Tile(3022, 3337, 0), new Tile(3030, 3337, 0), new Tile(3030, 3348, 0), 
 					new Tile(3022, 3352, 0), new Tile(3021, 3361, 0), new Tile(3015, 3360, 0), 
 					new Tile(3014, 3356, 0) });
@@ -252,5 +252,29 @@ public enum MiningLocation
 			return Walking.newTilePath(new Tile[]{});
 		}
 		//TODO perhaps more lodestone needed for different mines?
+	}
+	
+	public static SceneObject getEntranceEnter(String loc)
+	{
+		if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()))
+		{
+			return SceneEntities.getNearest(2113);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	public static SceneObject getEntranceExit(String loc)
+	{
+		if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()))
+		{
+			return SceneEntities.getNearest(6226);
+		}
+		else
+		{
+			return null;
+		}
 	}
 }

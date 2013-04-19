@@ -73,7 +73,8 @@ public class MineOres extends Node
 			if (Mining.waitForRockMiningOnScreen(1500) && MiningVars.rockMining.isOnScreen() && MiningVars.rockMining.validate())
 			{
 				miningWidget = Widgets.get(1213,  15);
-				if (miningWidget != null && miningWidget.visible() && miningWidget.getBounds()[0].intersects(MiningVars.rockMining.getBounds()[0].getBounds2D())) //TODO fix this... array index out of bounds (0) when restarts
+				if (miningWidget != null && miningWidget.visible() &&
+						miningWidget.getBounds().length > 0 && miningWidget.getBounds()[0].intersects(MiningVars.rockMining.getBounds()[0].getBounds2D())) //TODO fix this... array index out of bounds (0) when restarts
 				{
 					Walking.walk(MiningVars.rockMining);
 					Task.sleep(750, 1250);

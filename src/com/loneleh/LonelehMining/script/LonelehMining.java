@@ -31,9 +31,9 @@ import com.loneleh.LonelehMining.script.mining.MiningVars;
 import com.loneleh.LonelehMining.script.mining.Ore;
 
 @Manifest(
-		version = 1.322,
+		version = 1.33,
 		authors = {"xPropel"},
-		description = "Makes mining ever so simple. Supports Al Kharid, Lumbridge Swamp(W) and Dwarven Hidden Mine; Banking and power mining!",
+		description = "Makes mining ever so simple. Supports Al Kharid, Lumbridge Swamp(W), Dwarven Hidden Mine, and Mining Guild; Banking and power mining!",
 		name = "Loneleh Mining",
 		singleinstance = true,
 		topic = 956629,
@@ -129,7 +129,16 @@ public class LonelehMining extends ActiveScript implements PaintListener, MouseL
 			});
 
 			provide(
-					new Mining(new Node[]{new com.loneleh.LonelehMining.script.mining.nodes.Antiban(), new com.loneleh.LonelehMining.script.mining.nodes.CheckRequirements(), new com.loneleh.LonelehMining.script.mining.nodes.WalkToMines(), new com.loneleh.LonelehMining.script.mining.nodes.HoverRock(), new com.loneleh.LonelehMining.script.mining.nodes.MineOres(), new com.loneleh.LonelehMining.script.mining.nodes.WalkToBank(), new com.loneleh.LonelehMining.script.mining.nodes.BankOres(), new com.loneleh.LonelehMining.script.mining.nodes.DropOres()})
+					new Mining(new Node[]{new com.loneleh.LonelehMining.script.mining.nodes.Antiban(), 
+							new com.loneleh.LonelehMining.script.mining.nodes.CheckRequirements(), 
+							new com.loneleh.LonelehMining.script.mining.nodes.WalkToMines(),
+							new com.loneleh.LonelehMining.script.mining.nodes.WalkToMines2(),
+							new com.loneleh.LonelehMining.script.mining.nodes.HoverRock(), 
+							new com.loneleh.LonelehMining.script.mining.nodes.MineOres(),
+							new com.loneleh.LonelehMining.script.mining.nodes.WalkToBank2(),
+							new com.loneleh.LonelehMining.script.mining.nodes.WalkToBank(), 
+							new com.loneleh.LonelehMining.script.mining.nodes.BankOres(), 
+							new com.loneleh.LonelehMining.script.mining.nodes.DropOres()})
 					);
 		}
 		catch (Exception e)
