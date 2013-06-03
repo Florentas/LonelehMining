@@ -582,6 +582,7 @@ public class GUI extends JFrame
 		finishPanel.add(lblThanks);
 		
 		chckbxCoalBag = new JCheckBox("Coal bag");
+		chckbxCoalBag.setEnabled(false);
 		chckbxCoalBag.setBounds(181, 22, 67, 23);
 		finishPanel.add(chckbxCoalBag);
 		titlePanel.setBounds(5, 5, 434, 38);
