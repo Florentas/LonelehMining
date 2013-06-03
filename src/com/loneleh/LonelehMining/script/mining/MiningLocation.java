@@ -12,8 +12,8 @@ public enum MiningLocation
 	AL_KHARID("Al Kharid"),
 	LUMBRIDGE_SWAMP_W("Lumbridge Swamp (W)"),
 	MINING_GUILD("Mining Guild"),
-	MINING_GUILD_RD("Mining Guild (Resource Dungeon)"),
-	DWARVEN_HIDDEN_MINE("Dwarven Hidden Mine"),
+	MINING_GUILD_RD("Mining Guild (RD)"),
+	DWARVEN_HIDDEN_MINE("Dwarven Hidden Mine (RD)"),
 	CRAFTING_GUILD("Crafting Guild");
 	
 	private String name;
@@ -54,7 +54,7 @@ public enum MiningLocation
 		}
 		else if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD_RD.getName()))
 		{
-			return new String[]{};//{"Mithril ore", "Adamantite ore", "Runite ore"};
+			return new String[]{"Mithril ore", "Adamantite ore", "Runite ore"};
 		}
 		else if (loc.equalsIgnoreCase(MiningLocation.DWARVEN_HIDDEN_MINE.getName()))
 		{
@@ -82,15 +82,10 @@ public enum MiningLocation
 			return new Area(new Tile[] { new Tile(3089, 3246, 0), new Tile(3095, 3246, 0), new Tile(3095, 3240, 0), 
 					new Tile(3089, 3240, 0) });
 		}
-		else if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()))
+		else if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()) || loc.equalsIgnoreCase(MiningLocation.MINING_GUILD_RD.getName()))
 		{
 			return new Area(new Tile[] { new Tile(3008, 3358, 0), new Tile(3016, 3358, 0), new Tile(3015, 3354, 0), 
 					new Tile(3008, 3354, 0) });
-		}
-		else if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD_RD.getName()))
-		{
-			//TODO mining guild resource dungeon bank area
-			return new Area();
 		}
 		else if (loc.equalsIgnoreCase(MiningLocation.DWARVEN_HIDDEN_MINE.getName()))
 		{
@@ -144,12 +139,11 @@ public enum MiningLocation
 		}
 		else if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()))
 		{
-			return new Area(new Tile[] { new Tile(3015, 9730, 0), new Tile(3060, 9730, 0), new Tile(3060, 9756, 0), new Tile(3015, 9756, 0)});
+			return new Area(new Tile[] { new Tile(3015, 9730, 0), new Tile(3060, 9730, 0), new Tile(3060, 9756, 0), new Tile(3045, 9756, 0), new Tile(3015, 9741, 0)});
 		}
 		else if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD_RD.getName()))
 		{
-			//TODO mining guild resource dungeon area
-			return new Area();
+			return new Area(new Tile[] { new Tile(1040, 4540, 0), new Tile(1040, 4500, 0), new Tile(1070, 4500, 0), new Tile(1040, 4500, 0)});
 		}
 		else if (loc.equalsIgnoreCase(MiningLocation.DWARVEN_HIDDEN_MINE.getName()))
 		{
@@ -201,16 +195,11 @@ public enum MiningLocation
 					new Tile(3089, 3248, 0), new Tile(3092, 3247, 0), new Tile(3092, 3245, 0), 
 					new Tile(3090, 3244, 0) });
 		}
-		else if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()))
+		else if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()) || loc.equalsIgnoreCase(MiningLocation.MINING_GUILD_RD.getName()))
 		{
 			return Walking.newTilePath(new Tile[] { new Tile(3022, 3337, 0), new Tile(3030, 3337, 0), new Tile(3030, 3348, 0), 
 					new Tile(3022, 3352, 0), new Tile(3021, 3361, 0), new Tile(3015, 3360, 0), 
 					new Tile(3014, 3356, 0) });
-		}
-		else if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD_RD.getName()))
-		{
-			//TODO mining guild resource dungeon mines to bank path
-			return Walking.newTilePath(new Tile[]{});
 		}
 		else if (loc.equalsIgnoreCase(MiningLocation.DWARVEN_HIDDEN_MINE.getName()))
 		{
@@ -251,12 +240,11 @@ public enum MiningLocation
 		{
 			return Walking.newTilePath(new Tile[]{});
 		}
-		//TODO perhaps more lodestone needed for different mines?
 	}
 	
 	public static SceneObject getEntranceEnter(String loc)
 	{
-		if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()))
+		if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()) || loc.equalsIgnoreCase(MiningLocation.MINING_GUILD_RD.getName()))
 		{
 			return SceneEntities.getNearest(2113);
 		}
@@ -268,9 +256,33 @@ public enum MiningLocation
 	
 	public static SceneObject getEntranceExit(String loc)
 	{
-		if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()))
+		if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD.getName()) || loc.equalsIgnoreCase(MiningLocation.MINING_GUILD_RD.getName()))
 		{
 			return SceneEntities.getNearest(6226);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	public static SceneObject getInnerEntranceEnter(String loc)
+	{
+		if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD_RD.getName()))
+		{
+			return SceneEntities.getNearest(52856);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	public static SceneObject getInnerEntranceExit(String loc)
+	{
+		if (loc.equalsIgnoreCase(MiningLocation.MINING_GUILD_RD.getName()))
+		{
+			return SceneEntities.getNearest(52866);
 		}
 		else
 		{

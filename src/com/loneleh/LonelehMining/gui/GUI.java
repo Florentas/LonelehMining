@@ -14,6 +14,9 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -89,6 +92,10 @@ public class GUI extends JFrame
 	private final JCheckBox chckbxRuniteOre = new JCheckBox("Runite ore");
 	private final JCheckBox chckbxClay = new JCheckBox("Clay");
 	private final PriorityList priorityList = new PriorityList();
+	private final JLabel lblHighPriority = new JLabel("High priority");
+	private final JLabel lblLowPriority = new JLabel("Low priority");
+	
+	//step3Panel
 	private final JPanel finishPanel = new JPanel();
 	private final JButton btnStartNow = new JButton("Start now!");;
 	private final JLabel lblThanks = new JLabel("<html>\r\n<center>Thanks again for choosing <b>Loneleh Mining</b><br>\r\nEnjoy botting~</center>\r\n</html>");
@@ -98,6 +105,7 @@ public class GUI extends JFrame
 	private JDialog popupDialog;
 	private JProgressBar progressBar;
 	private JLabel lblPopupStatus;
+	private JCheckBox chckbxCoalBag;
 	
 	private void start()
 	{
@@ -509,13 +517,13 @@ public class GUI extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				for (Component c : (Component[])reverse(miningBottomPanel.getComponents())) //TODO reverse this array
+				for (Component c : (Component[])reverse(miningBottomPanel.getComponents()))
 					((JCheckBox)c).setSelected(((JCheckBox)c).isEnabled());
 			}
 		});
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(304, 54, 115, 125);
+		scrollPane.setBounds(304, 63, 115, 105);
 		step2Panel.add(scrollPane);
 		scrollPane.setViewportView(priorityList);
 		priorityList.setVisibleRowCount(6);
@@ -537,6 +545,14 @@ public class GUI extends JFrame
 		});
 		btnDeselectAll.setBounds(171, 152, 89, 23);
 		step2Panel.add(btnDeselectAll);
+		
+		lblHighPriority.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHighPriority.setBounds(328, 45, 64, 14);
+		step2Panel.add(lblHighPriority);
+		
+		lblLowPriority.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLowPriority.setBounds(330, 172, 62, 14);
+		step2Panel.add(lblLowPriority);
 		finishPanel.addComponentListener(new ComponentAdapter()
 		{
 			@Override
@@ -564,6 +580,10 @@ public class GUI extends JFrame
 		lblThanks.setHorizontalAlignment(SwingConstants.CENTER);
 		lblThanks.setBounds(0, 182, 429, 40);
 		finishPanel.add(lblThanks);
+		
+		chckbxCoalBag = new JCheckBox("Coal bag");
+		chckbxCoalBag.setBounds(181, 22, 67, 23);
+		finishPanel.add(chckbxCoalBag);
 		titlePanel.setBounds(5, 5, 434, 38);
 		
 		contentPane.add(titlePanel);

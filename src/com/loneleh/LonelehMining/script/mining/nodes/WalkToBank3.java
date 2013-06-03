@@ -13,7 +13,7 @@ import com.loneleh.LonelehMining.script.mining.Mining;
 import com.loneleh.LonelehMining.script.mining.MiningLocation;
 import com.loneleh.LonelehMining.script.mining.MiningVars;
 
-public class WalkToBank2 extends Node
+public class WalkToBank3 extends Node
 {
 	SceneObject portal = null;
 	
@@ -22,9 +22,7 @@ public class WalkToBank2 extends Node
 	{
 		if (!MiningVars.miningStrategy.equalsIgnoreCase("banking")) return false;
 		
-		return MiningVars.requirementChecked && Inventory.isFull() &&
-				(Mining.isAtMines() ||
-						(MiningVars.miningLocation.equalsIgnoreCase(MiningLocation.MINING_GUILD_RD.getName()) && Mining.isInMiningGuild()));
+		return MiningVars.requirementChecked && Inventory.isFull() && Mining.isAtMines();
 	}
 	
 	@Override
@@ -35,7 +33,7 @@ public class WalkToBank2 extends Node
 			LonelehMining.revoke(this);
 		
 		MiningVars.action = 5;
-		portal = MiningLocation.getEntranceExit(MiningVars.miningLocation);
+		portal = MiningLocation.getInnerEntranceExit(MiningVars.miningLocation);
 		if (portal != null)
 		{
 			if (!portal.isOnScreen())

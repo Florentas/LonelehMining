@@ -10,14 +10,16 @@ import com.loneleh.LonelehMining.script.mining.Mining;
 import com.loneleh.LonelehMining.script.mining.MiningLocation;
 import com.loneleh.LonelehMining.script.mining.MiningVars;
 
-public class WalkToMines2 extends Node
+public class WalkToMines3 extends Node
 {
 	SceneObject portal = null;
 	
 	@Override
 	public boolean activate()
 	{
-		return MiningVars.requirementChecked && !Inventory.isFull() && !Mining.isAtMines();
+		return MiningVars.requirementChecked && !Inventory.isFull() &&
+				(!MiningVars.miningLocation.equalsIgnoreCase(MiningLocation.MINING_GUILD_RD.getName()) || (MiningVars.miningLocation.equalsIgnoreCase(MiningLocation.MINING_GUILD_RD.getName()) && Mining.isInMiningGuild())) &&
+				!Mining.isAtMines();
 	}
 
 	@Override
@@ -28,7 +30,7 @@ public class WalkToMines2 extends Node
 			LonelehMining.revoke(this);
 		
 		MiningVars.action = 6;
-		portal = MiningLocation.getEntranceEnter(MiningVars.miningLocation);
+		portal = MiningLocation.getInnerEntranceEnter(MiningVars.miningLocation);
 		if (portal != null)
 		{
 			portal.click(true);

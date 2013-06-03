@@ -338,11 +338,11 @@ public class Ore
 			case GOLD:
 				return new int[]{};
 			case MITHRIL:
-				return new int[]{};
+				return new int[]{32438, 32439, 32440};
 			case ADAMANT:
-				return new int[]{};
+				return new int[]{32435, 32436, 32437};
 			case RUNE:
-				return new int[]{};
+				return new int[]{33078, 33079};
 			default:
 				break;
 			}
@@ -373,7 +373,7 @@ public class Ore
 				break;
 			}
 		}
-		else if (location.equalsIgnoreCase(MiningLocation.CRAFTING_GUILD.getName()))
+		else if (location.equalsIgnoreCase(MiningLocation.CRAFTING_GUILD.getName())) //TODO still need ids
 		{
 			switch (type)
 			{

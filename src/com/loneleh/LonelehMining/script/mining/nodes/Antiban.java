@@ -1,20 +1,16 @@
 package com.loneleh.LonelehMining.script.mining.nodes;
 
+import org.powerbot.core.script.job.Task;
 import org.powerbot.core.script.job.state.Node;
-import org.powerbot.core.script.util.Random;
 import org.powerbot.game.api.methods.Walking;
 import org.powerbot.game.api.methods.Widgets;
 import org.powerbot.game.api.methods.input.Mouse;
 import org.powerbot.game.api.methods.interactive.Players;
-import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.methods.widget.Camera;
-import org.powerbot.game.api.util.Filter;
-import org.powerbot.game.api.wrappers.node.SceneObject;
+import org.powerbot.game.api.util.Random;
 import org.powerbot.game.api.wrappers.widget.WidgetChild;
 
-import com.loneleh.LonelehMining.misc.Condition;
 import com.loneleh.LonelehMining.misc.Functions;
-import com.loneleh.LonelehMining.misc.Utilities;
 import com.loneleh.LonelehMining.script.mining.Mining;
 import com.loneleh.LonelehMining.script.mining.MiningLocation;
 import com.loneleh.LonelehMining.script.mining.MiningVars;
@@ -54,18 +50,6 @@ public class Antiban extends Node
 					Functions.chanceOf(27))
 			{
 				Mouse.move(Mouse.getX()+Random.nextInt(-3, 3), Mouse.getY()+Random.nextInt(-3, 3));
-			}
-			if (MiningVars.rockMining != null && MiningVars.rockMining.validate() &&
-					!Utilities.waitFor(new Condition()
-					{
-						@Override
-						public boolean validate()
-						{
-							return Players.getLocal().getAnimation() == 624;
-						}
-					}, 2000))
-			{
-				MiningVars.rockMining.interact("Mine", MiningVars.rockMining.getDefinition().getName());
 			}
 			if (MiningVars.rockMining != null && MiningVars.rockHover != null &&
 					MiningVars.rockMining.getLocation() != MiningVars.rockHover.getLocation() &&
@@ -136,10 +120,9 @@ public class Antiban extends Node
 				{
 					WidgetChild runIcon = Widgets.get(750, 2);
 					runIcon.interact("Rest");
+					Task.sleep(200);
 				}
 			}
-			
-			
 			
 			/*
 			SceneObject[] walls = SceneEntities.getLoaded(new Filter<SceneObject>() {

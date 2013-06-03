@@ -8,7 +8,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
@@ -20,12 +19,8 @@ import javax.imageio.ImageIO;
 
 import org.powerbot.game.api.methods.Calculations;
 import org.powerbot.game.api.methods.interactive.Players;
-import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.methods.tab.Skills;
-import org.powerbot.game.api.util.Filter;
 import org.powerbot.game.api.util.Time;
-import org.powerbot.game.api.wrappers.node.SceneObject;
-
 import com.loneleh.LonelehMining.gui.GUI;
 import com.loneleh.LonelehMining.misc.Functions;
 import com.loneleh.LonelehMining.misc.Variables;

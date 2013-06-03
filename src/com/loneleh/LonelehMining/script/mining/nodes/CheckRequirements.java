@@ -1,7 +1,7 @@
 package com.loneleh.LonelehMining.script.mining.nodes;
 
 import org.powerbot.core.script.job.state.Node;
-import org.powerbot.core.script.methods.Game;
+import org.powerbot.game.api.methods.Game;
 import org.powerbot.game.api.methods.tab.Equipment;
 import org.powerbot.game.api.methods.tab.Inventory;
 
@@ -27,8 +27,9 @@ public class CheckRequirements extends Node
 	{
 		if (Game.isLoggedIn())
 		{
-			if (Equipment.appearanceContainsOneOf(MiningVars.pickIds) || Equipment.getItem(MiningVars.pickIds) != null
-					|| Inventory.contains(MiningVars.pickIds))
+			if (Equipment.getAppearanceIds() != null && 
+					(Equipment.appearanceContainsOneOf(MiningVars.pickIds) || Equipment.getItem(MiningVars.pickIds) != null
+					|| Inventory.contains(MiningVars.pickIds)))
 			{
 				MiningVars.requirementChecked = true;
 				LonelehMining.revoke(this);

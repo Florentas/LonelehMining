@@ -31,11 +31,11 @@ import com.loneleh.LonelehMining.script.mining.MiningVars;
 import com.loneleh.LonelehMining.script.mining.Ore;
 
 @Manifest(
-		version = 1.33,
+		version = 1.41,
 		authors = {"xPropel"},
-		description = "Makes mining ever so simple. Supports Al Kharid, Lumbridge Swamp(W), Dwarven Hidden Mine, and Mining Guild; Banking and power mining!",
+		description = "Supports Al Kharid, Lumbridge Swamp(W), Dwarven Hidden Mine, Mining Guild, and Minnig Guild RD; Coal-bag; Banking and power mining!",
 		name = "Loneleh Mining",
-		singleinstance = true,
+		instances = 0,
 		topic = 956629,
 		website = "http://www.powerbot.org/community/topic/956629-loneleh-mining-always-a-step-ahead/",
 		vip = false,
@@ -52,6 +52,7 @@ public class LonelehMining extends ActiveScript implements PaintListener, MouseL
 		{
 			if(!jobsCollection.contains(job))
 			{
+				logger.info("Burdening: " + job.getClass().getName().substring(job.getClass().getName().lastIndexOf(".")+1));
 				jobsCollection.add(job);
 			}
 		}
@@ -63,6 +64,7 @@ public class LonelehMining extends ActiveScript implements PaintListener, MouseL
 		{
 			if(jobsCollection.contains(job))
 			{
+				logger.info("Unloading: " + job.getClass().getName().substring(job.getClass().getName().lastIndexOf(".")+1));
 				jobsCollection.remove(job);
 			}
 		}
@@ -129,16 +131,21 @@ public class LonelehMining extends ActiveScript implements PaintListener, MouseL
 			});
 
 			provide(
-					new Mining(new Node[]{new com.loneleh.LonelehMining.script.mining.nodes.Antiban(), 
+					new Mining(new Node[]{
+							new com.loneleh.LonelehMining.script.mining.nodes.Antiban(), 
 							new com.loneleh.LonelehMining.script.mining.nodes.CheckRequirements(), 
 							new com.loneleh.LonelehMining.script.mining.nodes.WalkToMines(),
 							new com.loneleh.LonelehMining.script.mining.nodes.WalkToMines2(),
+							new com.loneleh.LonelehMining.script.mining.nodes.WalkToMines3(),
 							new com.loneleh.LonelehMining.script.mining.nodes.HoverRock(), 
 							new com.loneleh.LonelehMining.script.mining.nodes.MineOres(),
+							new com.loneleh.LonelehMining.script.mining.nodes.FillCoalbag(),
+							new com.loneleh.LonelehMining.script.mining.nodes.WalkToBank3(),
 							new com.loneleh.LonelehMining.script.mining.nodes.WalkToBank2(),
 							new com.loneleh.LonelehMining.script.mining.nodes.WalkToBank(), 
 							new com.loneleh.LonelehMining.script.mining.nodes.BankOres(), 
-							new com.loneleh.LonelehMining.script.mining.nodes.DropOres()})
+							new com.loneleh.LonelehMining.script.mining.nodes.DropOres(),
+							new com.loneleh.LonelehMining.script.mining.nodes.Failsafe()})
 					);
 		}
 		catch (Exception e)
@@ -178,7 +185,7 @@ public class LonelehMining extends ActiveScript implements PaintListener, MouseL
 				if (job != null)
 				{
 					jobContainer.set(job);
-					getContainer().submit(job);
+					submit(job); //getContainer().submit(job);
 					job.join();
 				}
 			}
@@ -249,7 +256,7 @@ public class LonelehMining extends ActiveScript implements PaintListener, MouseL
 					}
 				}
 			}
-			else if (msg.contains("You just found a")) //including "an" [emerald]
+			else if (msg.contains("You just found a")) //including "an" [emerald, onyx, etc]
 			{
 				for (String name : MiningVars.gemsList)
 				{

@@ -2,10 +2,10 @@ package com.loneleh.LonelehMining.script.mining.nodes;
 
 import org.powerbot.core.script.job.Task;
 import org.powerbot.core.script.job.state.Node;
-import org.powerbot.core.script.util.Random;
 import org.powerbot.game.api.methods.input.Mouse;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.methods.widget.Camera;
+import org.powerbot.game.api.util.Random;
 
 import com.loneleh.LonelehMining.misc.Utilities;
 import com.loneleh.LonelehMining.script.mining.Mining;
@@ -30,6 +30,8 @@ public class HoverRock extends Node
 		if (MiningVars.rockHover == null) return;
 		else
 		{
+			//System.out.println("new rock: " + MiningVars.rockHover.getDefinition().getName());
+			
 			if (MiningVars.rockHover != null)
 			{
 				if (!Utilities.isOnScreen(MiningVars.rockHover))

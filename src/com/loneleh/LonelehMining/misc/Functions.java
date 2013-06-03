@@ -1,13 +1,12 @@
 package com.loneleh.LonelehMining.misc;
 
-import org.powerbot.core.script.util.Random;
 import org.powerbot.game.api.methods.Calculations;
 import org.powerbot.game.api.methods.tab.Skills;
 import org.powerbot.game.api.util.Filter;
+import org.powerbot.game.api.util.Random;
 import org.powerbot.game.api.wrappers.Locatable;
 import org.powerbot.game.api.wrappers.Tile;
 import org.powerbot.game.api.wrappers.interactive.NPC;
-import org.powerbot.game.api.wrappers.map.LocalPath;
 import org.powerbot.game.api.wrappers.node.SceneObject;
 
 import com.loneleh.LonelehMining.script.LonelehMining;
@@ -52,11 +51,13 @@ public class Functions
 		return arr;
 	}
 	
+	
 	/**
 	 * Thanks to Roflgod's methods!
 	 * @param loc
 	 * @return
 	 */
+	/*
 	public static double getRealDistance(Locatable loc)
 	{
 		if (loc == null || loc.getLocation() == null) return 9001;
@@ -82,32 +83,35 @@ public class Functions
 		
 		return 9001;
 	}
-	
+	*/
 	/**
 	 * Thanks to Roflgod's methods!
 	 * @param loc
 	 * @return
 	 */
+	/*
 	public static double getAbsDistanceToNearest(Locatable loc)
 	{
 		return Math.abs(Calculations.distanceTo(loc) - getRealDistance(loc));
 	}
-	
+	*/
 	/**
 	 * Thanks to Roflgod's methods!
 	 * @param loc
 	 * @return
 	 */
+	/*
 	public static boolean canReachToRealNearest(Locatable loc)
 	{
 		return getAbsDistanceToNearest(loc) < 5;
 	}
-	
+	*/
 	/**
 	 * Thanks to Roflgod's methods!
 	 * @param loc
 	 * @return
 	 */
+	/*
 	public static Filter<NPC> npcRealDistanceFilter(final String mon)
 	{
 		return  new Filter<NPC>()
@@ -126,12 +130,13 @@ public class Functions
 			}
 				};
 	}
-	
+	*/
 	/**
 	 * Thanks to Roflgod's methods! Modified for SceneEntities
 	 * @param loc
 	 * @return
 	 */
+	/*
 	public static Filter<SceneObject> sceneObjectRealDistanceFilter(final String sceneEntity)
 	{
 		return  new Filter<SceneObject>()
@@ -150,4 +155,5 @@ public class Functions
 			}
 				};
 	}
+	*/
 }
